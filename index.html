@@ -10,469 +10,300 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --cream: #F7F3EE;
-  --cream-dark: #EDE8E0;
-  --beige: #D4C5B2;
-  --sage: #A8B5A0;
-  --sage-light: #C5D1BE;
-  --sage-dark: #7A8C72;
-  --blush: #E8C4C4;
-  --blush-light: #F2DEDE;
-  --blush-dark: #C9A0A0;
-  --charcoal: #3A3632;
-  --charcoal-light: #5A5550;
-  --white: #FFFFFF;
-  --gold: #C4A87C;
-  --gold-light: #DCC9A3;
-  --error: #C47070;
-  --success: #7CAA7C;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Jost', 'Segoe UI', sans-serif;
-  --shadow-sm: 0 2px 8px rgba(58,54,50,.06);
-  --shadow-md: 0 4px 20px rgba(58,54,50,.08);
-  --shadow-lg: 0 8px 40px rgba(58,54,50,.12);
-  --radius: 12px;
-  --transition: .35s cubic-bezier(.4,0,.2,1);
-}
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; font-size:16px; }
-body {
-  font-family: var(--font-body);
-  background: var(--cream);
-  color: var(--charcoal);
-  line-height:1.6;
-  overflow-x:hidden;
-  -webkit-font-smoothing: antialiased;
-}
-::selection { background: var(--sage-light); color: var(--charcoal); }
-::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-track { background: var(--cream); }
-::-webkit-scrollbar-thumb { background: var(--beige); border-radius:3px; }
+:root{--cream:#F7F3EE;--cream-dark:#EDE8E0;--beige:#D4C5B2;--sage:#A8B5A0;--sage-light:#C5D1BE;--sage-dark:#7A8C72;--blush:#E8C4C4;--blush-light:#F2DEDE;--charcoal:#3A3632;--charcoal-light:#5A5550;--white:#FFFFFF;--gold:#C4A87C;--gold-light:#DCC9A3;--error:#C47070;--success:#7CAA7C;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Jost','Segoe UI',sans-serif;--shadow-sm:0 2px 8px rgba(58,54,50,.06);--shadow-md:0 4px 20px rgba(58,54,50,.08);--shadow-lg:0 8px 40px rgba(58,54,50,.12);--radius:12px;--transition:.35s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);background:var(--cream);color:var(--charcoal);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--sage-light);color:var(--charcoal)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--beige);border-radius:3px}
 
-#loader {
-  position:fixed; inset:0; z-index:10000;
-  background: var(--cream);
-  display:flex; align-items:center; justify-content:center;
-  flex-direction:column; gap:1rem;
-  transition: opacity .6s, visibility .6s;
-}
-#loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
-#loader .spinner {
-  width:44px; height:44px;
-  border:2px solid var(--beige);
-  border-top-color: var(--sage);
-  border-radius:50%;
-  animation: spin .8s linear infinite;
-}
-#loader .loader-text { font-size:.82rem; color:var(--charcoal-light); letter-spacing:.05em; }
-@keyframes spin { to { transform:rotate(360deg); } }
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:10000;background:var(--cream);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity .6s,visibility .6s}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.spinner{width:44px;height:44px;border:2px solid var(--beige);border-top-color:var(--sage);border-radius:50%;animation:spin .8s linear infinite}
+.loader-text{font-size:.82rem;color:var(--charcoal-light);letter-spacing:.05em}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-.nav {
-  position:fixed; top:0; left:0; right:0; z-index:1000;
-  padding:1rem 2rem;
-  display:flex; align-items:center; justify-content:space-between;
-  transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
-}
-.nav.scrolled {
-  background:rgba(247,243,238,.95);
-  backdrop-filter:blur(12px);
-  box-shadow: var(--shadow-sm);
-  padding:.7rem 2rem;
-}
-.nav-logo {
-  font-family: var(--font-display);
-  font-size:1.6rem; font-weight:300;
-  letter-spacing:.04em; color: var(--charcoal);
-  text-decoration:none;
-  display:flex; align-items:center; gap:.5rem;
-}
-.nav-logo svg { width:28px; height:28px; }
-.nav-links { display:flex; gap:1.8rem; align-items:center; list-style:none; }
-.nav-links a {
-  font-size:.85rem; font-weight:400; letter-spacing:.06em;
-  text-transform:uppercase; text-decoration:none;
-  color: var(--charcoal-light);
-  position:relative; transition: color var(--transition);
-}
-.nav-links a::after {
-  content:''; position:absolute; bottom:-4px; left:0;
-  width:0; height:1px; background: var(--sage);
-  transition: width var(--transition);
-}
-.nav-links a:hover { color: var(--charcoal); }
-.nav-links a:hover::after { width:100%; }
-.nav-auth { display:flex; gap:.6rem; align-items:center; }
+/* NAV — Single clean navbar */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;transition:background var(--transition),box-shadow var(--transition),padding var(--transition)}
+.nav.scrolled{background:rgba(247,243,238,.96);backdrop-filter:blur(12px);box-shadow:var(--shadow-sm);padding:.7rem 2rem}
+.nav-logo{font-family:var(--font-display);font-size:1.6rem;font-weight:300;letter-spacing:.04em;color:var(--charcoal);text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.nav-logo svg{width:28px;height:28px}
+/* Desktop links */
+.nav-center{display:flex;gap:1.8rem;align-items:center;list-style:none}
+.nav-center a{font-size:.83rem;font-weight:400;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--charcoal-light);position:relative;transition:color var(--transition)}
+.nav-center a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--sage);transition:width var(--transition)}
+.nav-center a:hover{color:var(--charcoal)}
+.nav-center a:hover::after{width:100%}
+.nav-center a.active-link{color:var(--sage-dark)}
+.nav-center a.active-link::after{width:100%}
+/* Desktop auth buttons */
+.nav-right{display:flex;gap:.5rem;align-items:center}
+.nav-right .user-name{font-size:.83rem;color:var(--charcoal-light);margin-right:.3rem}
 
-.btn {
-  display:inline-flex; align-items:center; justify-content:center; gap:.4rem;
-  padding:.6rem 1.4rem;
-  font-family: var(--font-body); font-size:.82rem; font-weight:500;
-  letter-spacing:.04em; text-transform:uppercase;
-  border:none; border-radius:50px; cursor:pointer;
-  transition: all var(--transition); text-decoration:none;
-}
-.btn-outline { background:transparent; border:1px solid var(--beige); color: var(--charcoal); }
-.btn-outline:hover { background: var(--charcoal); color: var(--cream); border-color: var(--charcoal); }
-.btn-primary { background: var(--sage); color:var(--white); }
-.btn-primary:hover { background: var(--sage-dark); transform:translateY(-1px); box-shadow: var(--shadow-md); }
-.btn-danger { background: var(--error); color:var(--white); }
-.btn-danger:hover { opacity:.85; }
-.btn-sm { padding:.4rem 1rem; font-size:.75rem; }
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.6rem 1.4rem;font-family:var(--font-body);font-size:.82rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border:none;border-radius:50px;cursor:pointer;transition:all var(--transition);text-decoration:none}
+.btn-outline{background:transparent;border:1px solid var(--beige);color:var(--charcoal)}
+.btn-outline:hover{background:var(--charcoal);color:var(--cream);border-color:var(--charcoal)}
+.btn-primary{background:var(--sage);color:var(--white)}
+.btn-primary:hover{background:var(--sage-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.btn-danger{background:var(--error);color:var(--white)}
+.btn-danger:hover{opacity:.85}
+.btn-sm{padding:.4rem 1rem;font-size:.75rem}
 
-.hamburger {
-  display:none; background:none; border:none; cursor:pointer;
-  width:28px; height:20px; position:relative;
-}
-.hamburger span {
-  display:block; width:100%; height:1.5px;
-  background: var(--charcoal); position:absolute; left:0;
-  transition: var(--transition);
-}
-.hamburger span:nth-child(1) { top:0; }
-.hamburger span:nth-child(2) { top:50%; transform:translateY(-50%); }
-.hamburger span:nth-child(3) { bottom:0; }
-.hamburger.active span:nth-child(1) { top:50%; transform:translateY(-50%) rotate(45deg); }
-.hamburger.active span:nth-child(2) { opacity:0; }
-.hamburger.active span:nth-child(3) { bottom:50%; transform:translateY(50%) rotate(-45deg); }
+/* HAMBURGER */
+.hamburger{display:none;background:none;border:none;cursor:pointer;width:28px;height:20px;position:relative;z-index:1001}
+.hamburger span{display:block;width:100%;height:1.5px;background:var(--charcoal);position:absolute;left:0;transition:var(--transition)}
+.hamburger span:nth-child(1){top:0}
+.hamburger span:nth-child(2){top:50%;transform:translateY(-50%)}
+.hamburger span:nth-child(3){bottom:0}
+.hamburger.active span:nth-child(1){top:50%;transform:translateY(-50%) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){bottom:50%;transform:translateY(50%) rotate(-45deg)}
 
-.hero {
-  min-height:100vh; display:flex; align-items:center; justify-content:center;
-  position:relative; overflow:hidden;
-  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 40%, var(--blush-light) 100%);
-}
-.hero-bg-shapes { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
-.hero-bg-shapes .shape { position:absolute; border-radius:50%; opacity:.15; }
-.hero-bg-shapes .shape-1 {
-  width:500px; height:500px; background: var(--sage-light);
-  top:-10%; right:-5%; animation: floatShape 20s ease-in-out infinite;
-}
-.hero-bg-shapes .shape-2 {
-  width:350px; height:350px; background: var(--blush);
-  bottom:-8%; left:-3%; animation: floatShape 16s ease-in-out infinite reverse;
-}
-.hero-bg-shapes .shape-3 {
-  width:200px; height:200px; background: var(--gold-light);
-  top:40%; left:15%; animation: floatShape 12s ease-in-out infinite 2s;
-}
-@keyframes floatShape {
-  0%,100% { transform:translate(0,0) scale(1); }
-  33% { transform:translate(30px,-20px) scale(1.05); }
-  66% { transform:translate(-20px,15px) scale(.95); }
-}
-.hero-content { text-align:center; z-index:2; padding:2rem; animation: fadeUp .8s ease-out; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-.hero-tag {
-  font-size:.75rem; font-weight:500; letter-spacing:.2em;
-  text-transform:uppercase; color: var(--sage-dark); margin-bottom:1.2rem;
-}
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(3rem,8vw,6.5rem);
-  font-weight:300; line-height:1.05; color: var(--charcoal); margin-bottom:1rem;
-}
-.hero-title em { font-style:italic; font-weight:400; color: var(--sage-dark); }
-.hero-sub {
-  font-size:1.05rem; font-weight:300; color: var(--charcoal-light);
-  max-width:480px; margin:0 auto 2.5rem; line-height:1.7;
-}
-.hero-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+/* MOBILE DRAWER */
+.mobile-drawer{position:fixed;top:0;right:-100%;width:280px;height:100vh;background:var(--white);z-index:999;padding:5rem 2rem 2rem;display:flex;flex-direction:column;gap:.2rem;transition:right var(--transition);box-shadow:var(--shadow-lg);overflow-y:auto}
+.mobile-drawer.open{right:0}
+.mobile-drawer a{font-size:.95rem;text-decoration:none;color:var(--charcoal);padding:.75rem 0;border-bottom:1px solid var(--cream-dark);transition:color var(--transition)}
+.mobile-drawer a:hover{color:var(--sage-dark)}
+.mobile-drawer .drawer-auth{margin-top:auto;padding-top:1.5rem;border-top:1px solid var(--cream-dark);display:flex;flex-direction:column;gap:.6rem}
+.mobile-overlay{position:fixed;inset:0;background:rgba(58,54,50,.3);z-index:998;display:none}
+.mobile-overlay.open{display:block}
 
-section { padding:6rem 2rem; }
-.section-header { text-align:center; margin-bottom:3.5rem; }
-.section-tag {
-  font-size:.72rem; font-weight:500; letter-spacing:.2em;
-  text-transform:uppercase; color: var(--sage-dark); margin-bottom:.6rem;
-}
-.section-title {
-  font-family: var(--font-display);
-  font-size: clamp(2rem,4vw,3rem); font-weight:300; color: var(--charcoal);
-}
-.section-line { width:50px; height:1px; background: var(--sage); margin:1rem auto 0; }
-.container { max-width:1200px; margin:0 auto; }
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--cream) 0%,var(--cream-dark) 40%,var(--blush-light) 100%)}
+.hero-bg-shapes{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-bg-shapes .shape{position:absolute;border-radius:50%;opacity:.15}
+.shape-1{width:500px;height:500px;background:var(--sage-light);top:-10%;right:-5%;animation:floatShape 20s ease-in-out infinite}
+.shape-2{width:350px;height:350px;background:var(--blush);bottom:-8%;left:-3%;animation:floatShape 16s ease-in-out infinite reverse}
+.shape-3{width:200px;height:200px;background:var(--gold-light);top:40%;left:15%;animation:floatShape 12s ease-in-out infinite 2s}
+@keyframes floatShape{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(.95)}}
+.hero-content{text-align:center;z-index:2;padding:2rem;animation:fadeUp .8s ease-out}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-tag{font-size:.75rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-dark);margin-bottom:1.2rem}
+.hero-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,6.5rem);font-weight:300;line-height:1.05;color:var(--charcoal);margin-bottom:1rem}
+.hero-title em{font-style:italic;font-weight:400;color:var(--sage-dark)}
+.hero-sub{font-size:1.05rem;font-weight:300;color:var(--charcoal-light);max-width:480px;margin:0 auto 2.5rem;line-height:1.7}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 
-#tratamientos { background: var(--white); }
-.treatments-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap:2rem; }
-.treatment-card {
-  background: var(--cream); border-radius: var(--radius); overflow:hidden;
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-.treatment-card:hover { transform:translateY(-6px); box-shadow: var(--shadow-lg); }
-.treatment-card img { width:100%; height:220px; object-fit:cover; transition: transform .6s ease; }
-.treatment-card:hover img { transform:scale(1.04); }
-.treatment-card .card-body { padding:1.5rem; }
-.treatment-card h3 { font-family: var(--font-display); font-size:1.4rem; font-weight:500; margin-bottom:.5rem; }
-.treatment-card p { font-size:.9rem; color: var(--charcoal-light); margin-bottom:1rem; line-height:1.6; }
-.treatment-card .price { font-family: var(--font-display); font-size:1.3rem; font-weight:600; color: var(--sage-dark); }
+/* SECTIONS */
+section{padding:6rem 2rem}
+.section-header{text-align:center;margin-bottom:3.5rem}
+.section-tag{font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-dark);margin-bottom:.6rem}
+.section-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:300;color:var(--charcoal)}
+.section-line{width:50px;height:1px;background:var(--sage);margin:1rem auto 0}
+.container{max-width:1200px;margin:0 auto}
 
-#galeria { background: var(--cream); }
-.gallery-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:1.5rem; }
-.gallery-item { border-radius: var(--radius); overflow:hidden; position:relative; cursor:pointer; aspect-ratio:3/4; }
-.gallery-item img { width:100%; height:100%; object-fit:cover; transition: transform .5s ease; }
-.gallery-item:hover img { transform:scale(1.06); }
+#tratamientos{background:var(--white)}
+.treatments-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem}
+.treatment-card{background:var(--cream);border-radius:var(--radius);overflow:hidden;transition:transform var(--transition),box-shadow var(--transition)}
+.treatment-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.treatment-card img{width:100%;height:220px;object-fit:cover;transition:transform .6s ease}
+.treatment-card:hover img{transform:scale(1.04)}
+.treatment-card .card-body{padding:1.5rem}
+.treatment-card h3{font-family:var(--font-display);font-size:1.4rem;font-weight:500;margin-bottom:.5rem}
+.treatment-card p{font-size:.9rem;color:var(--charcoal-light);margin-bottom:1rem;line-height:1.6}
+.treatment-card .price{font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--sage-dark)}
 
-#videos { background: var(--white); }
-.videos-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr)); gap:2rem; }
-.video-item { border-radius: var(--radius); overflow:hidden; background: var(--cream); box-shadow: var(--shadow-sm); }
-.video-item .video-wrapper { position:relative; padding-bottom:56.25%; height:0; }
-.video-item iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
-.video-item .video-title { padding:1rem 1.2rem; font-family: var(--font-display); font-size:1.1rem; font-weight:500; }
+#galeria{background:var(--cream)}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
+.gallery-item{border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;aspect-ratio:3/4}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gallery-item:hover img{transform:scale(1.06)}
 
-#reservas { background: var(--cream); }
-.booking-wrapper {
-  max-width:700px; margin:0 auto;
-  background: var(--white); border-radius: var(--radius);
-  padding:2.5rem; box-shadow: var(--shadow-md);
-}
-.form-group { margin-bottom:1.5rem; }
-.form-group label {
-  display:block; font-size:.8rem; font-weight:500;
-  letter-spacing:.06em; text-transform:uppercase;
-  color: var(--charcoal-light); margin-bottom:.5rem;
-}
-.form-group input, .form-group select, .form-group textarea {
-  width:100%; padding:.75rem 1rem;
-  font-family: var(--font-body); font-size:.95rem;
-  border:1px solid var(--cream-dark); border-radius:8px;
-  background: var(--cream); color: var(--charcoal);
-  transition: border-color var(--transition); outline:none;
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--sage); }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-.time-slots { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem; }
-.time-slot {
-  padding:.5rem 1rem; border-radius:50px;
-  border:1px solid var(--beige); background:var(--white);
-  font-size:.85rem; cursor:pointer; transition: all var(--transition);
-}
-.time-slot:hover { border-color: var(--sage); }
-.time-slot.selected { background: var(--sage); color:var(--white); border-color:var(--sage); }
-.time-slot.occupied { opacity:.35; pointer-events:none; text-decoration:line-through; }
-#booking-login-msg { text-align:center; padding:2rem; font-size:1rem; color: var(--charcoal-light); }
+#videos{background:var(--white)}
+.videos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2rem}
+.video-item{border-radius:var(--radius);overflow:hidden;background:var(--cream);box-shadow:var(--shadow-sm)}
+.video-item .video-wrapper{position:relative;padding-bottom:56.25%;height:0}
+.video-item iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.video-item .video-title{padding:1rem 1.2rem;font-family:var(--font-display);font-size:1.1rem;font-weight:500}
 
-#contacto { background: var(--white); }
-.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; max-width:900px; margin:0 auto; }
-.contact-info h3 { font-family: var(--font-display); font-size:1.6rem; font-weight:400; margin-bottom:1.5rem; }
-.contact-info p { font-size:.95rem; color: var(--charcoal-light); margin-bottom:1rem; line-height:1.7; }
-.contact-links { display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem; }
-.contact-link {
-  display:inline-flex; align-items:center; gap:.6rem;
-  text-decoration:none; color: var(--charcoal); font-size:.95rem; transition: color var(--transition);
-}
-.contact-link:hover { color: var(--sage-dark); }
-.contact-link svg { width:20px; height:20px; flex-shrink:0; }
+#reservas{background:var(--cream)}
+.booking-wrapper{max-width:700px;margin:0 auto;background:var(--white);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow-md)}
+.form-group{margin-bottom:1.5rem}
+.form-group label{display:block;font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--charcoal-light);margin-bottom:.5rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:.75rem 1rem;font-family:var(--font-body);font-size:.95rem;border:1px solid var(--cream-dark);border-radius:8px;background:var(--cream);color:var(--charcoal);transition:border-color var(--transition);outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--sage)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.time-slots{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+.time-slot{padding:.5rem 1rem;border-radius:50px;border:1px solid var(--beige);background:var(--white);font-size:.85rem;cursor:pointer;transition:all var(--transition)}
+.time-slot:hover{border-color:var(--sage)}
+.time-slot.selected{background:var(--sage);color:var(--white);border-color:var(--sage)}
+.time-slot.occupied{opacity:.35;pointer-events:none;text-decoration:line-through}
+#booking-login-msg{text-align:center;padding:2rem;font-size:1rem;color:var(--charcoal-light)}
 
-.footer {
-  background: var(--charcoal); color: rgba(255,255,255,.6);
-  padding:3rem 2rem 2rem; text-align:center;
-}
-.footer-logo { font-family: var(--font-display); font-size:1.8rem; font-weight:300; color:var(--white); margin-bottom:.5rem; }
-.footer-social { display:flex; justify-content:center; gap:1rem; margin:1.5rem 0; }
-.footer-social a {
-  width:40px; height:40px; display:flex; align-items:center; justify-content:center;
-  border-radius:50%; border:1px solid rgba(255,255,255,.2);
-  color: rgba(255,255,255,.6); transition: all var(--transition); text-decoration:none;
-}
-.footer-social a:hover { background:var(--sage); border-color:var(--sage); color:var(--white); }
-.footer p { font-size:.82rem; margin-top:1rem; }
+#contacto{background:var(--white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:900px;margin:0 auto}
+.contact-info h3{font-family:var(--font-display);font-size:1.6rem;font-weight:400;margin-bottom:1.5rem}
+.contact-info p{font-size:.95rem;color:var(--charcoal-light);margin-bottom:1rem;line-height:1.7}
+.contact-links{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
+.contact-link{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--charcoal);font-size:.95rem;transition:color var(--transition)}
+.contact-link:hover{color:var(--sage-dark)}
+.contact-link svg{width:20px;height:20px;flex-shrink:0}
 
-.whatsapp-float {
-  position:fixed; bottom:2rem; right:2rem; z-index:900;
-  width:56px; height:56px; border-radius:50%;
-  background:#25D366; color:var(--white);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow: 0 4px 16px rgba(37,211,102,.35);
-  text-decoration:none;
-  transition: transform var(--transition), box-shadow var(--transition);
-  animation: pulse 2s ease-in-out infinite;
-}
-.whatsapp-float:hover { transform:scale(1.1); }
-@keyframes pulse {
-  0%,100% { box-shadow: 0 4px 16px rgba(37,211,102,.35); }
-  50% { box-shadow: 0 4px 24px rgba(37,211,102,.55); }
-}
-.whatsapp-float svg { width:28px; height:28px; }
+.footer{background:var(--charcoal);color:rgba(255,255,255,.6);padding:3rem 2rem 2rem;text-align:center}
+.footer-logo{font-family:var(--font-display);font-size:1.8rem;font-weight:300;color:var(--white);margin-bottom:.5rem}
+.footer-social{display:flex;justify-content:center;gap:1rem;margin:1.5rem 0}
+.footer-social a{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);transition:all var(--transition);text-decoration:none}
+.footer-social a:hover{background:var(--sage);border-color:var(--sage);color:var(--white)}
+.footer p{font-size:.82rem;margin-top:1rem}
 
-.modal-overlay {
-  position:fixed; inset:0; z-index:2000;
-  background:rgba(58,54,50,.4); backdrop-filter:blur(4px);
-  display:none; align-items:center; justify-content:center; padding:1rem;
-}
-.modal-overlay.active { display:flex; }
-.modal {
-  background:var(--white); border-radius:var(--radius);
-  width:100%; max-width:480px; max-height:90vh;
-  overflow-y:auto; padding:2.5rem; box-shadow: var(--shadow-lg);
-  animation: modalIn .3s ease-out;
-}
-@keyframes modalIn { from { opacity:0; transform:translateY(20px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
-.modal-close { float:right; background:none; border:none; font-size:1.3rem; cursor:pointer; color: var(--charcoal-light); }
-.modal-close:hover { color: var(--charcoal); }
-.modal h2 { font-family: var(--font-display); font-size:1.8rem; font-weight:400; margin-bottom:1.5rem; }
-.modal .form-group { margin-bottom:1.2rem; }
-.modal .btn { width:100%; margin-top:.5rem; }
-.modal-switch { text-align:center; margin-top:1.2rem; font-size:.88rem; color: var(--charcoal-light); }
-.modal-switch a { color: var(--sage-dark); text-decoration:none; font-weight:500; cursor:pointer; }
-.modal-switch a:hover { text-decoration:underline; }
+.whatsapp-float{position:fixed;bottom:2rem;right:2rem;z-index:900;width:56px;height:56px;border-radius:50%;background:#25D366;color:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,.35);text-decoration:none;transition:transform var(--transition);animation:pulse 2s ease-in-out infinite}
+.whatsapp-float:hover{transform:scale(1.1)}
+@keyframes pulse{0%,100%{box-shadow:0 4px 16px rgba(37,211,102,.35)}50%{box-shadow:0 4px 24px rgba(37,211,102,.55)}}
+.whatsapp-float svg{width:28px;height:28px}
 
-#admin-panel { display:none; background: var(--cream); min-height:100vh; padding-top:80px; }
-#admin-panel.active { display:block; }
-.admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
-.admin-header h2 { font-family: var(--font-display); font-size:2rem; font-weight:400; }
-.admin-tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:2rem; }
-.admin-tab {
-  padding:.6rem 1.2rem; border-radius:50px;
-  border:1px solid var(--beige); background:var(--white);
-  font-family: var(--font-body); font-size:.82rem; font-weight:500;
-  letter-spacing:.03em; cursor:pointer; transition: all var(--transition);
-}
-.admin-tab.active, .admin-tab:hover { background: var(--sage); color:var(--white); border-color:var(--sage); }
-.admin-section { display:none; }
-.admin-section.active { display:block; }
-.admin-card { background:var(--white); border-radius:var(--radius); padding:1.5rem; margin-bottom:1rem; box-shadow: var(--shadow-sm); }
-.admin-card h4 { font-family: var(--font-display); font-size:1.2rem; margin-bottom:.8rem; }
-.admin-table { width:100%; border-collapse:collapse; font-size:.88rem; }
-.admin-table th {
-  text-align:left; padding:.7rem; font-size:.75rem; font-weight:600;
-  letter-spacing:.06em; text-transform:uppercase; color: var(--charcoal-light);
-  border-bottom:2px solid var(--cream-dark);
-}
-.admin-table td { padding:.7rem; border-bottom:1px solid var(--cream); vertical-align:middle; }
-.admin-table .actions { display:flex; gap:.4rem; flex-wrap:wrap; }
-.badge { display:inline-block; padding:.2rem .6rem; border-radius:50px; font-size:.72rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; }
-.badge-pending { background: var(--gold-light); color: var(--charcoal); }
-.badge-approved { background: var(--sage-light); color: var(--sage-dark); }
-.badge-cancelled { background: var(--blush); color: var(--error); }
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(58,54,50,.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.active{display:flex}
+.modal{background:var(--white);border-radius:var(--radius);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:2.5rem;box-shadow:var(--shadow-lg);animation:modalIn .3s ease-out}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{float:right;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--charcoal-light)}
+.modal-close:hover{color:var(--charcoal)}
+.modal h2{font-family:var(--font-display);font-size:1.8rem;font-weight:400;margin-bottom:1.5rem}
+.modal .form-group{margin-bottom:1.2rem}
+.modal .btn{width:100%;margin-top:.5rem}
+.modal-switch{text-align:center;margin-top:1.2rem;font-size:.88rem;color:var(--charcoal-light)}
+.modal-switch a{color:var(--sage-dark);text-decoration:none;font-weight:500;cursor:pointer}
+.modal-switch a:hover{text-decoration:underline}
 
-.toast-container { position:fixed; top:100px; right:2rem; z-index:3000; display:flex; flex-direction:column; gap:.5rem; }
-.toast {
-  padding:.8rem 1.4rem; border-radius:8px; background:var(--white); box-shadow: var(--shadow-md);
-  font-size:.88rem; animation: toastIn .3s ease-out; max-width:340px;
-}
-.toast.success { border-left:3px solid var(--success); }
-.toast.error { border-left:3px solid var(--error); }
-@keyframes toastIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
+/* ADMIN */
+.view-admin{display:none;background:var(--cream);min-height:100vh;padding-top:90px}
+.view-admin.active{display:block}
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.admin-header h2{font-family:var(--font-display);font-size:2rem;font-weight:400}
+.admin-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.admin-tab{padding:.6rem 1.2rem;border-radius:50px;border:1px solid var(--beige);background:var(--white);font-family:var(--font-body);font-size:.82rem;font-weight:500;letter-spacing:.03em;cursor:pointer;transition:all var(--transition)}
+.admin-tab.active,.admin-tab:hover{background:var(--sage);color:var(--white);border-color:var(--sage)}
+.admin-section{display:none}.admin-section.active{display:block}
+.admin-card{background:var(--white);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem;box-shadow:var(--shadow-sm)}
+.admin-card h4{font-family:var(--font-display);font-size:1.2rem;margin-bottom:.8rem}
+.admin-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.admin-table th{text-align:left;padding:.7rem;font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--charcoal-light);border-bottom:2px solid var(--cream-dark)}
+.admin-table td{padding:.7rem;border-bottom:1px solid var(--cream);vertical-align:middle}
+.admin-table .actions{display:flex;gap:.4rem;flex-wrap:wrap}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:50px;font-size:.72rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+.badge-pending{background:var(--gold-light);color:var(--charcoal)}
+.badge-approved{background:var(--sage-light);color:var(--sage-dark)}
+.badge-cancelled{background:var(--blush);color:var(--error)}
 
-.reveal { opacity:0; transform:translateY(25px); transition: opacity .7s ease-out, transform .7s ease-out; }
-.reveal.visible { opacity:1; transform:translateY(0); }
-.empty-state { text-align:center; padding:3rem 1rem; color: var(--charcoal-light); font-size:.95rem; }
+/* TOAST */
+.toast-container{position:fixed;top:100px;right:2rem;z-index:3000;display:flex;flex-direction:column;gap:.5rem}
+.toast{padding:.8rem 1.4rem;border-radius:8px;background:var(--white);box-shadow:var(--shadow-md);font-size:.88rem;animation:toastIn .3s ease-out;max-width:340px}
+.toast.success{border-left:3px solid var(--success)}.toast.error{border-left:3px solid var(--error)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
 
-@media (max-width:900px) {
-  .nav-links, .nav-auth { display:none; }
-  .hamburger { display:block; }
-  .mobile-menu {
-    display:none; position:absolute; top:100%; left:0; right:0;
-    background:rgba(247,243,238,.98); backdrop-filter:blur(12px);
-    padding:1.5rem 2rem; box-shadow: var(--shadow-md);
-  }
-  .mobile-menu.open { display:flex; flex-direction:column; gap:1rem; }
-  .mobile-menu a { font-size:.9rem; text-decoration:none; color: var(--charcoal); padding:.5rem 0; border-bottom:1px solid var(--cream-dark); }
-  .contact-grid { grid-template-columns:1fr; }
-  .form-row { grid-template-columns:1fr; }
-  .videos-grid { grid-template-columns:1fr; }
+.reveal{opacity:0;transform:translateY(25px);transition:opacity .7s ease-out,transform .7s ease-out}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--charcoal-light);font-size:.95rem}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-center,.nav-right{display:none}
+  .hamburger{display:block}
+  .contact-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .videos-grid{grid-template-columns:1fr}
 }
-@media (max-width:600px) {
-  section { padding:4rem 1.2rem; }
-  .hero-title { font-size:2.6rem; }
-  .booking-wrapper { padding:1.5rem; }
-  .modal { padding:1.5rem; }
+@media(max-width:600px){
+  section{padding:4rem 1.2rem}
+  .hero-title{font-size:2.6rem}
+  .booking-wrapper{padding:1.5rem}
+  .modal{padding:1.5rem}
 }
 </style>
 </head>
 <body>
 
 <div id="loader"><div class="spinner"></div><p class="loader-text">Cargando Angel Spa...</p></div>
-
-<!-- FAILSAFE: este script SIEMPRE corre, incluso si Firebase no carga -->
 <script>
 (function(){
-  window.__loaderTimer = setTimeout(function(){
-    var l = document.getElementById('loader');
-    if(l) l.classList.add('hidden');
-    console.warn('[AngelSpa] Loader ocultado por timeout de seguridad (5s)');
-  }, 5000);
-  window.__hideLoader = function(){
-    clearTimeout(window.__loaderTimer);
-    var l = document.getElementById('loader');
-    if(l && !l.classList.contains('hidden')) l.classList.add('hidden');
-  };
+  window.__loaderTimer=setTimeout(function(){var l=document.getElementById('loader');if(l)l.classList.add('hidden');},5000);
+  window.__hideLoader=function(){clearTimeout(window.__loaderTimer);var l=document.getElementById('loader');if(l&&!l.classList.contains('hidden'))l.classList.add('hidden');};
 })();
 </script>
 
 <div class="toast-container" id="toast-container"></div>
 
+<!-- ═══ SINGLE NAVBAR ═══ -->
 <nav class="nav" id="navbar">
-  <a href="#inicio" class="nav-logo">
+  <a href="#" class="nav-logo" onclick="navigateTo('inicio');return false">
     <svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.2"/><path d="M16 6c-2 4-6 6-6 10a6 6 0 0012 0c0-4-4-6-6-10z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
     Angel Spa
   </a>
-  <ul class="nav-links">
-    <li><a href="#inicio">Inicio</a></li>
-    <li><a href="#tratamientos">Tratamientos</a></li>
-    <li><a href="#galeria">Galería</a></li>
-    <li><a href="#videos">Videos</a></li>
-    <li><a href="#reservas">Reservas</a></li>
-    <li><a href="#contacto">Contacto</a></li>
+  <ul class="nav-center" id="nav-center">
+    <li><a href="#" onclick="navigateTo('inicio');return false" data-view="inicio" class="active-link">Inicio</a></li>
+    <li><a href="#" onclick="navigateTo('tratamientos');return false" data-view="tratamientos">Tratamientos</a></li>
+    <li><a href="#" onclick="navigateTo('galeria');return false" data-view="galeria">Galería</a></li>
+    <li><a href="#" onclick="navigateTo('videos');return false" data-view="videos">Videos</a></li>
+    <li><a href="#" onclick="navigateTo('reservas');return false" data-view="reservas">Reservas</a></li>
+    <li><a href="#" onclick="navigateTo('contacto');return false" data-view="contacto">Contacto</a></li>
   </ul>
-  <div class="nav-auth">
-    <span id="user-greeting" style="display:none;font-size:.85rem;color:var(--charcoal-light)"></span>
-    <button class="btn btn-outline btn-sm" id="btn-login-nav" onclick="openModal('login')">Ingresar</button>
-    <button class="btn btn-primary btn-sm" id="btn-register-nav" onclick="openModal('register')">Registrarse</button>
-    <button class="btn btn-outline btn-sm" id="btn-admin-nav" style="display:none" onclick="toggleAdmin()">Panel Admin</button>
-    <button class="btn btn-sm" id="btn-logout-nav" style="display:none" onclick="logoutUser()">Salir</button>
+  <div class="nav-right" id="nav-right">
+    <span class="user-name" id="user-greeting" style="display:none"></span>
+    <button class="btn btn-outline btn-sm" id="btn-login" onclick="openModal('login')">Ingresar</button>
+    <button class="btn btn-primary btn-sm" id="btn-register" onclick="openModal('register')">Registrarse</button>
+    <button class="btn btn-outline btn-sm" id="btn-admin" style="display:none" onclick="navigateTo('admin')">Panel Admin</button>
+    <button class="btn btn-sm" id="btn-logout" style="display:none" onclick="logoutUser()">Salir</button>
   </div>
-  <button class="hamburger" id="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="#inicio" onclick="closeMobile()">Inicio</a>
-    <a href="#tratamientos" onclick="closeMobile()">Tratamientos</a>
-    <a href="#galeria" onclick="closeMobile()">Galería</a>
-    <a href="#videos" onclick="closeMobile()">Videos</a>
-    <a href="#reservas" onclick="closeMobile()">Reservas</a>
-    <a href="#contacto" onclick="closeMobile()">Contacto</a>
-    <a href="#" id="mob-login" onclick="openModal('login');closeMobile();return false">Ingresar</a>
-    <a href="#" id="mob-register" onclick="openModal('register');closeMobile();return false">Registrarse</a>
-    <a href="#" id="mob-admin" style="display:none" onclick="toggleAdmin();closeMobile();return false">Panel Admin</a>
-    <a href="#" id="mob-logout" style="display:none" onclick="logoutUser();closeMobile();return false">Salir</a>
-  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
 </nav>
 
-<div id="main-site">
+<!-- MOBILE DRAWER (separate overlay) -->
+<div class="mobile-overlay" id="mobile-overlay" onclick="closeDrawer()"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="#" onclick="navigateTo('inicio');closeDrawer();return false">Inicio</a>
+  <a href="#" onclick="navigateTo('tratamientos');closeDrawer();return false">Tratamientos</a>
+  <a href="#" onclick="navigateTo('galeria');closeDrawer();return false">Galería</a>
+  <a href="#" onclick="navigateTo('videos');closeDrawer();return false">Videos</a>
+  <a href="#" onclick="navigateTo('reservas');closeDrawer();return false">Reservas</a>
+  <a href="#" onclick="navigateTo('contacto');closeDrawer();return false">Contacto</a>
+  <div class="drawer-auth">
+    <a href="#" id="mob-admin" style="display:none" onclick="navigateTo('admin');closeDrawer();return false">Panel Admin</a>
+    <a href="#" id="mob-login" onclick="openModal('login');closeDrawer();return false">Ingresar</a>
+    <a href="#" id="mob-register" onclick="openModal('register');closeDrawer();return false">Registrarse</a>
+    <a href="#" id="mob-logout" style="display:none" onclick="logoutUser();closeDrawer();return false">Cerrar sesión</a>
+  </div>
+</div>
 
-<section class="hero" id="inicio">
+<!-- ═══ MAIN SITE (public view) ═══ -->
+<div id="view-site">
+
+<section class="hero" id="sec-inicio">
   <div class="hero-bg-shapes"><div class="shape shape-1"></div><div class="shape shape-2"></div><div class="shape shape-3"></div></div>
   <div class="hero-content">
     <p class="hero-tag">Bienestar &middot; Belleza &middot; Relajación</p>
     <h1 class="hero-title">Angel <em>Spa</em></h1>
     <p class="hero-sub">Un santuario de paz donde cada tratamiento es una experiencia de renovación para tu cuerpo y tu alma.</p>
     <div class="hero-actions">
-      <a href="#reservas" class="btn btn-primary">Reservar turno</a>
-      <a href="#tratamientos" class="btn btn-outline">Ver tratamientos</a>
+      <a href="#" class="btn btn-primary" onclick="navigateTo('reservas');return false">Reservar turno</a>
+      <a href="#" class="btn btn-outline" onclick="navigateTo('tratamientos');return false">Ver tratamientos</a>
     </div>
   </div>
 </section>
 
-<section id="tratamientos">
+<section id="sec-tratamientos">
   <div class="container">
     <div class="section-header reveal"><p class="section-tag">Nuestros Servicios</p><h2 class="section-title">Tratamientos</h2><div class="section-line"></div></div>
     <div class="treatments-grid" id="treatments-grid"><div class="empty-state">Cargando...</div></div>
   </div>
 </section>
 
-<section id="galeria">
+<section id="sec-galeria">
   <div class="container">
     <div class="section-header reveal"><p class="section-tag">Inspiración</p><h2 class="section-title">Galería</h2><div class="section-line"></div></div>
     <div class="gallery-grid" id="gallery-grid"><div class="empty-state">Cargando...</div></div>
   </div>
 </section>
 
-<section id="videos">
+<section id="sec-videos">
   <div class="container">
     <div class="section-header reveal"><p class="section-tag">Experiencias</p><h2 class="section-title">Videos</h2><div class="section-line"></div></div>
     <div class="videos-grid" id="videos-grid"><div class="empty-state">Cargando...</div></div>
   </div>
 </section>
 
-<section id="reservas">
+<section id="sec-reservas">
   <div class="container">
     <div class="section-header reveal"><p class="section-tag">Tu momento</p><h2 class="section-title">Reservar Turno</h2><div class="section-line"></div></div>
     <div class="booking-wrapper">
@@ -490,7 +321,7 @@ section { padding:6rem 2rem; }
   </div>
 </section>
 
-<section id="contacto">
+<section id="sec-contacto">
   <div class="container">
     <div class="section-header reveal"><p class="section-tag">Hablemos</p><h2 class="section-title">Contacto</h2><div class="section-line"></div></div>
     <div class="contact-grid">
@@ -498,9 +329,9 @@ section { padding:6rem 2rem; }
         <h3>Estamos para vos</h3>
         <p>¿Tenés dudas sobre nuestros tratamientos o querés agendar tu visita? Contactanos:</p>
         <div class="contact-links">
-          <a class="contact-link" href="https://wa.me/59494795675" target="_blank">
+          <a class="contact-link" href="https://wa.me/59894795675" target="_blank">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            WhatsApp: +594 94795675
+            WhatsApp: +598 94795675
           </a>
           <a class="contact-link" href="https://instagram.com/angelspa_uy" target="_blank">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -524,65 +355,63 @@ section { padding:6rem 2rem; }
   <div class="footer-logo">Angel Spa</div>
   <p style="font-size:.88rem;">Bienestar & Relajación</p>
   <div class="footer-social">
-    <a href="https://wa.me/59494795675" target="_blank" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+    <a href="https://wa.me/59894795675" target="_blank" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
     <a href="https://instagram.com/angelspa_uy" target="_blank" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
   </div>
   <p>&copy; 2025 Angel Spa. Todos los derechos reservados.</p>
 </footer>
-</div>
+</div><!-- /view-site -->
 
-<!-- ADMIN PANEL -->
-<div id="admin-panel">
-  <div class="container" style="padding-top:1rem;">
-    <div class="admin-header"><h2>Panel de Administración</h2><button class="btn btn-outline btn-sm" onclick="toggleAdmin()">Volver al sitio</button></div>
+<!-- ═══ ADMIN VIEW (independent, hidden by default) ═══ -->
+<div class="view-admin" id="view-admin">
+  <div class="container" style="padding:1rem 2rem;">
+    <div class="admin-header"><h2>Panel de Administración</h2><button class="btn btn-outline btn-sm" onclick="navigateTo('inicio')">Volver al sitio</button></div>
     <div class="admin-tabs">
-      <button class="admin-tab active" onclick="switchAdminTab(this,'admin-treatments')">Tratamientos</button>
-      <button class="admin-tab" onclick="switchAdminTab(this,'admin-flyers')">Flyers</button>
-      <button class="admin-tab" onclick="switchAdminTab(this,'admin-videos')">Videos</button>
-      <button class="admin-tab" onclick="switchAdminTab(this,'admin-schedule')">Horarios</button>
-      <button class="admin-tab" onclick="switchAdminTab(this,'admin-bookings')">Reservas</button>
-      <button class="admin-tab" onclick="switchAdminTab(this,'admin-users')">Usuarios</button>
+      <button class="admin-tab active" onclick="switchAdminTab(this,'at-treats')">Tratamientos</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'at-flyers')">Flyers</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'at-videos')">Videos</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'at-schedule')">Horarios</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'at-bookings')">Reservas</button>
+      <button class="admin-tab" onclick="switchAdminTab(this,'at-users')">Usuarios</button>
     </div>
-    <div class="admin-section active" id="admin-treatments">
+    <div class="admin-section active" id="at-treats">
       <div class="admin-card"><h4>Agregar / Editar Tratamiento</h4>
         <form onsubmit="return saveTreatment(event)"><input type="hidden" id="edit-treat-id">
-          <div class="form-group"><label>Nombre</label><input type="text" id="treat-name" required></div>
-          <div class="form-group"><label>Descripción</label><textarea id="treat-desc" rows="2" required></textarea></div>
-          <div class="form-row"><div class="form-group"><label>Precio ($)</label><input type="number" id="treat-price" required></div><div class="form-group"><label>URL Imagen</label><input type="url" id="treat-image" placeholder="https://..." required></div></div>
-          <div style="display:flex;gap:.5rem"><button type="submit" class="btn btn-primary btn-sm">Guardar</button><button type="button" class="btn btn-outline btn-sm" onclick="clearTreatmentForm()">Limpiar</button></div>
-        </form>
+        <div class="form-group"><label>Nombre</label><input type="text" id="treat-name" required></div>
+        <div class="form-group"><label>Descripción</label><textarea id="treat-desc" rows="2" required></textarea></div>
+        <div class="form-row"><div class="form-group"><label>Precio ($)</label><input type="number" id="treat-price" required></div><div class="form-group"><label>URL Imagen</label><input type="url" id="treat-image" placeholder="https://..." required></div></div>
+        <div style="display:flex;gap:.5rem"><button type="submit" class="btn btn-primary btn-sm">Guardar</button><button type="button" class="btn btn-outline btn-sm" onclick="clearTreatmentForm()">Limpiar</button></div></form>
       </div>
       <div class="admin-card"><h4>Tratamientos existentes</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Nombre</th><th>Precio</th><th>Acciones</th></tr></thead><tbody id="admin-treat-list"></tbody></table></div></div>
     </div>
-    <div class="admin-section" id="admin-flyers">
+    <div class="admin-section" id="at-flyers">
       <div class="admin-card"><h4>Agregar Flyer</h4><form onsubmit="return saveFlyer(event)"><div class="form-group"><label>Título</label><input type="text" id="flyer-title" required></div><div class="form-group"><label>URL Imagen</label><input type="url" id="flyer-url" placeholder="https://..." required></div><button type="submit" class="btn btn-primary btn-sm">Agregar</button></form></div>
-      <div class="admin-card"><h4>Flyers existentes</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Título</th><th>Acciones</th></tr></thead><tbody id="admin-flyer-list"></tbody></table></div></div>
+      <div class="admin-card"><h4>Flyers</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Título</th><th>Acciones</th></tr></thead><tbody id="admin-flyer-list"></tbody></table></div></div>
     </div>
-    <div class="admin-section" id="admin-videos">
+    <div class="admin-section" id="at-videos">
       <div class="admin-card"><h4>Agregar Video</h4><form onsubmit="return saveVideo(event)"><div class="form-group"><label>Título</label><input type="text" id="video-title" required></div><div class="form-group"><label>URL (YouTube, Vimeo)</label><input type="url" id="video-url" placeholder="https://youtube.com/watch?v=..." required></div><button type="submit" class="btn btn-primary btn-sm">Agregar</button></form></div>
-      <div class="admin-card"><h4>Videos existentes</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Título</th><th>Acciones</th></tr></thead><tbody id="admin-video-list"></tbody></table></div></div>
+      <div class="admin-card"><h4>Videos</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Título</th><th>Acciones</th></tr></thead><tbody id="admin-video-list"></tbody></table></div></div>
     </div>
-    <div class="admin-section" id="admin-schedule">
-      <div class="admin-card"><h4>Definir disponibilidad</h4>
+    <div class="admin-section" id="at-schedule">
+      <div class="admin-card"><h4>Disponibilidad</h4>
         <form onsubmit="return saveSchedule(event)">
-          <div class="form-group"><label>Días disponibles</label><div style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.5rem" id="schedule-days">
-            <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="1"> Lunes</label>
-            <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="2"> Martes</label>
-            <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="3"> Miércoles</label>
-            <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="4"> Jueves</label>
-            <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="5"> Viernes</label>
-            <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="6"> Sábado</label>
-            <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="0"> Domingo</label>
-          </div></div>
-          <div class="form-row"><div class="form-group"><label>Hora inicio</label><input type="time" id="sched-start" value="09:00" required></div><div class="form-group"><label>Hora fin</label><input type="time" id="sched-end" value="18:00" required></div></div>
-          <div class="form-group"><label>Intervalo (min)</label><input type="number" id="sched-interval" value="60" min="15" max="180" required></div>
-          <button type="submit" class="btn btn-primary btn-sm">Guardar horarios</button>
-        </form>
+        <div class="form-group"><label>Días</label><div style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.5rem" id="schedule-days">
+          <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="1"> Lun</label>
+          <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="2"> Mar</label>
+          <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="3"> Mié</label>
+          <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="4"> Jue</label>
+          <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="5"> Vie</label>
+          <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="6"> Sáb</label>
+          <label style="display:flex;align-items:center;gap:.3rem;font-size:.9rem;cursor:pointer"><input type="checkbox" value="0"> Dom</label>
+        </div></div>
+        <div class="form-row"><div class="form-group"><label>Inicio</label><input type="time" id="sched-start" value="09:00" required></div><div class="form-group"><label>Fin</label><input type="time" id="sched-end" value="18:00" required></div></div>
+        <div class="form-group"><label>Intervalo (min)</label><input type="number" id="sched-interval" value="60" min="15" max="180" required></div>
+        <button type="submit" class="btn btn-primary btn-sm">Guardar</button></form>
       </div>
-      <div class="admin-card"><h4>Configuración actual</h4><div id="current-schedule"><p style="color:var(--charcoal-light);font-size:.9rem;">Sin configurar</p></div></div>
+      <div class="admin-card"><h4>Actual</h4><div id="current-schedule"><p style="color:var(--charcoal-light);font-size:.9rem;">Sin configurar</p></div></div>
     </div>
-    <div class="admin-section" id="admin-bookings"><div class="admin-card"><h4>Reservas</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Cliente</th><th>Tratamiento</th><th>Fecha</th><th>Hora</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="admin-booking-list"></tbody></table></div></div></div>
-    <div class="admin-section" id="admin-users"><div class="admin-card"><h4>Usuarios registrados</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Nombre</th><th>Email</th><th>Registro</th></tr></thead><tbody id="admin-user-list"></tbody></table></div></div></div>
+    <div class="admin-section" id="at-bookings"><div class="admin-card"><h4>Reservas</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Cliente</th><th>Tratamiento</th><th>Fecha</th><th>Hora</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="admin-booking-list"></tbody></table></div></div></div>
+    <div class="admin-section" id="at-users"><div class="admin-card"><h4>Usuarios</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Nombre</th><th>Email</th><th>Registro</th></tr></thead><tbody id="admin-user-list"></tbody></table></div></div></div>
   </div>
 </div>
 
@@ -590,267 +419,158 @@ section { padding:6rem 2rem; }
 <div class="modal-overlay" id="modal-login"><div class="modal"><button class="modal-close" onclick="closeModal('login')">&times;</button><h2>Bienvenida de vuelta</h2><form onsubmit="return loginUser(event)"><div class="form-group"><label>Email</label><input type="email" id="login-email" required></div><div class="form-group"><label>Contraseña</label><input type="password" id="login-pass" required></div><button type="submit" class="btn btn-primary">Ingresar</button></form><p class="modal-switch">¿No tenés cuenta? <a onclick="closeModal('login');openModal('register')">Registrate</a></p></div></div>
 <div class="modal-overlay" id="modal-register"><div class="modal"><button class="modal-close" onclick="closeModal('register')">&times;</button><h2>Crear cuenta</h2><form onsubmit="return registerUser(event)"><div class="form-group"><label>Nombre completo</label><input type="text" id="reg-name" required></div><div class="form-group"><label>Teléfono</label><input type="tel" id="reg-phone"></div><div class="form-group"><label>Email</label><input type="email" id="reg-email" required></div><div class="form-group"><label>Contraseña</label><input type="password" id="reg-pass" minlength="6" required></div><button type="submit" class="btn btn-primary">Registrarse</button></form><p class="modal-switch">¿Ya tenés cuenta? <a onclick="closeModal('register');openModal('login')">Ingresá</a></p></div></div>
 
-<a class="whatsapp-float" href="https://wa.me/59494795675" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+<a class="whatsapp-float" href="https://wa.me/59894795675" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
 
-<!-- FIREBASE COMPAT SDK — script tags normales, nunca fallan silenciosamente -->
+<!-- FIREBASE COMPAT -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
 <script>
-// ══════════════════════════════════════════════
-// ANGEL SPA — App Logic (Firebase Compat SDK)
-// ══════════════════════════════════════════════
-var db, auth;
-var currentUser = null, isAdmin = false;
-var treatmentsCache = [], flyersCache = [], videosCache = [];
-var scheduleData = { days: [], start: '09:00', end: '18:00', interval: 60 };
-var ADMIN_EMAIL = 'amo037108@gmail.com';
-var dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+var db,auth,currentUser=null,isAdmin=false;
+var treatmentsCache=[],flyersCache=[],videosCache=[];
+var scheduleData={days:[],start:'09:00',end:'18:00',interval:60};
+var ADMIN_EMAIL='amo037108@gmail.com';
+var dayNames=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+var currentView='site'; // 'site' or 'admin'
 
-try {
-  firebase.initializeApp({
-    apiKey: "AIzaSyCOhI1U8L5f-bXJuwSVDPMle0NQfm45TEw",
-    authDomain: "angel-spa-6e466.firebaseapp.com",
-    projectId: "angel-spa-6e466",
-    storageBucket: "angel-spa-6e466.firebasestorage.app",
-    messagingSenderId: "153527467961",
-    appId: "1:153527467961:web:d7107c71cbea1e00d8c068"
-  });
-  db = firebase.firestore();
-  auth = firebase.auth();
-  console.log('[AngelSpa] Firebase OK');
-} catch (err) {
-  console.error('[AngelSpa] Firebase init error:', err);
-  window.__hideLoader();
+try{
+  firebase.initializeApp({apiKey:"AIzaSyCOhI1U8L5f-bXJuwSVDPMle0NQfm45TEw",authDomain:"angel-spa-6e466.firebaseapp.com",projectId:"angel-spa-6e466",storageBucket:"angel-spa-6e466.firebasestorage.app",messagingSenderId:"153527467961",appId:"1:153527467961:web:d7107c71cbea1e00d8c068"});
+  db=firebase.firestore();auth=firebase.auth();console.log('[AngelSpa] Firebase OK');
+}catch(err){console.error('[AngelSpa] Firebase error:',err);window.__hideLoader();}
+
+// ── HELPERS ──
+function toast(msg,type){var c=document.getElementById('toast-container'),t=document.createElement('div');t.className='toast '+(type||'success');t.textContent=msg;c.appendChild(t);setTimeout(function(){t.remove();},4000);}
+function openModal(n){document.getElementById('modal-'+n).classList.add('active');}
+function closeModal(n){document.getElementById('modal-'+n).classList.remove('active');}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+function placeholderImg(){return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23EDE8E0' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' fill='%23A8B5A0' font-size='18' text-anchor='middle' dy='.3em'%3EAngel Spa%3C/text%3E%3C/svg%3E";}
+function getEmbedUrl(url){try{if(url.indexOf('youtube.com/watch')>-1)return 'https://www.youtube.com/embed/'+new URL(url).searchParams.get('v');if(url.indexOf('youtu.be/')>-1)return 'https://www.youtube.com/embed/'+url.split('youtu.be/')[1].split('?')[0];if(url.indexOf('vimeo.com/')>-1)return 'https://player.vimeo.com/video/'+url.split('vimeo.com/')[1].split('?')[0];return url;}catch(e){return url;}}
+function observeReveal(){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.15});document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){obs.observe(el);});}
+
+// ══════════════════════════════════════
+// CENTRALIZED VIEW SYSTEM
+// ══════════════════════════════════════
+function navigateTo(target){
+  closeDrawer();
+  // Update nav active link
+  document.querySelectorAll('.nav-center a').forEach(function(a){a.classList.remove('active-link');});
+  var navLink=document.querySelector('.nav-center a[data-view="'+target+'"]');
+
+  if(target==='admin'){
+    if(!isAdmin){toast('Acceso denegado','error');return;}
+    // Hide site, show admin
+    document.getElementById('view-site').style.display='none';
+    document.getElementById('view-admin').classList.add('active');
+    currentView='admin';
+    loadAdminBookings();loadAdminUsers();loadSchedule();
+    window.scrollTo(0,0);
+    return;
+  }
+
+  // Show site, hide admin
+  document.getElementById('view-site').style.display='';
+  document.getElementById('view-admin').classList.remove('active');
+  currentView='site';
+  if(navLink) navLink.classList.add('active-link');
+
+  // Scroll to section
+  var sec=document.getElementById('sec-'+target);
+  if(sec){
+    setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'});},50);
+  }else{
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
 }
 
-function toast(msg, type) {
-  var c = document.getElementById('toast-container');
-  var t = document.createElement('div');
-  t.className = 'toast ' + (type || 'success');
-  t.textContent = msg;
-  c.appendChild(t);
-  setTimeout(function(){ t.remove(); }, 4000);
+// ── MOBILE DRAWER ──
+function toggleDrawer(){
+  document.getElementById('hamburger').classList.toggle('active');
+  document.getElementById('mobile-drawer').classList.toggle('open');
+  document.getElementById('mobile-overlay').classList.toggle('open');
 }
-function openModal(n) { document.getElementById('modal-'+n).classList.add('active'); }
-function closeModal(n) { document.getElementById('modal-'+n).classList.remove('active'); }
-function uid() { return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
-function placeholderImg() { return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23EDE8E0' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' fill='%23A8B5A0' font-size='18' text-anchor='middle' dy='.3em'%3EAngel Spa%3C/text%3E%3C/svg%3E"; }
-function getEmbedUrl(url) {
-  try {
-    if(url.indexOf('youtube.com/watch')>-1) return 'https://www.youtube.com/embed/'+new URL(url).searchParams.get('v');
-    if(url.indexOf('youtu.be/')>-1) return 'https://www.youtube.com/embed/'+url.split('youtu.be/')[1].split('?')[0];
-    if(url.indexOf('vimeo.com/')>-1) return 'https://player.vimeo.com/video/'+url.split('vimeo.com/')[1].split('?')[0];
-    return url;
-  } catch(e){ return url; }
+function closeDrawer(){
+  document.getElementById('hamburger').classList.remove('active');
+  document.getElementById('mobile-drawer').classList.remove('open');
+  document.getElementById('mobile-overlay').classList.remove('open');
 }
-function observeReveal() {
-  var obs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }); },{threshold:0.15});
-  document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){obs.observe(el);});
-}
-function toggleMobile() { document.getElementById('hamburger').classList.toggle('active'); document.getElementById('mobile-menu').classList.toggle('open'); }
-function closeMobile() { document.getElementById('hamburger').classList.remove('active'); document.getElementById('mobile-menu').classList.remove('open'); }
-window.addEventListener('scroll',function(){ document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40); });
+window.addEventListener('scroll',function(){document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40);});
 
 // ── AUTH ──
-function registerUser(e) {
-  e.preventDefault();
-  var nm=document.getElementById('reg-name').value.trim(), ph=document.getElementById('reg-phone').value.trim(),
-      em=document.getElementById('reg-email').value.trim(), pw=document.getElementById('reg-pass').value;
-  auth.createUserWithEmailAndPassword(em,pw).then(function(cred){
-    return db.collection('users').doc(cred.user.uid).set({name:nm,phone:ph,email:em,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-  }).then(function(){toast('Cuenta creada');closeModal('register');}).catch(function(err){toast(err.message,'error');});
-  return false;
-}
-function loginUser(e) {
-  e.preventDefault();
-  var em=document.getElementById('login-email').value.trim(), pw=document.getElementById('login-pass').value;
-  auth.signInWithEmailAndPassword(em,pw).then(function(){toast('Sesión iniciada');closeModal('login');}).catch(function(){toast('Credenciales incorrectas','error');});
-  return false;
-}
-function logoutUser() { auth.signOut().then(function(){toast('Sesión cerrada');if(document.getElementById('admin-panel').classList.contains('active'))toggleAdmin();}); }
-function updateAuthUI() {
+function registerUser(e){e.preventDefault();var nm=document.getElementById('reg-name').value.trim(),ph=document.getElementById('reg-phone').value.trim(),em=document.getElementById('reg-email').value.trim(),pw=document.getElementById('reg-pass').value;auth.createUserWithEmailAndPassword(em,pw).then(function(cred){return db.collection('users').doc(cred.user.uid).set({name:nm,phone:ph,email:em,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}).then(function(){toast('Cuenta creada');closeModal('register');}).catch(function(err){toast(err.message,'error');});return false;}
+function loginUser(e){e.preventDefault();var em=document.getElementById('login-email').value.trim(),pw=document.getElementById('login-pass').value;auth.signInWithEmailAndPassword(em,pw).then(function(){toast('Sesión iniciada');closeModal('login');}).catch(function(){toast('Credenciales incorrectas','error');});return false;}
+function logoutUser(){auth.signOut().then(function(){toast('Sesión cerrada');navigateTo('inicio');});}
+
+function updateAuthUI(){
   var l=!!currentUser;
-  document.getElementById('btn-login-nav').style.display=l?'none':'';
-  document.getElementById('btn-register-nav').style.display=l?'none':'';
-  document.getElementById('btn-logout-nav').style.display=l?'':'none';
-  document.getElementById('btn-admin-nav').style.display=isAdmin?'':'none';
+  // Desktop
+  document.getElementById('btn-login').style.display=l?'none':'';
+  document.getElementById('btn-register').style.display=l?'none':'';
+  document.getElementById('btn-logout').style.display=l?'':'none';
+  document.getElementById('btn-admin').style.display=isAdmin?'':'none';
+  var g=document.getElementById('user-greeting');
+  if(l){g.style.display='';g.textContent=isAdmin?'Admin':currentUser.email.split('@')[0];}else{g.style.display='none';}
+  // Mobile
   document.getElementById('mob-login').style.display=l?'none':'';
   document.getElementById('mob-register').style.display=l?'none':'';
   document.getElementById('mob-logout').style.display=l?'':'none';
   document.getElementById('mob-admin').style.display=isAdmin?'':'none';
-  var g=document.getElementById('user-greeting');
-  if(l){g.style.display='';g.textContent=currentUser.email===ADMIN_EMAIL?'Admin':currentUser.email.split('@')[0];}else{g.style.display='none';}
 }
+
 if(auth) auth.onAuthStateChanged(function(user){
-  currentUser=user; isAdmin=user&&user.email===ADMIN_EMAIL; updateAuthUI();
+  currentUser=user;isAdmin=user&&user.email===ADMIN_EMAIL;updateAuthUI();
   if(user){document.getElementById('booking-form').style.display='block';document.getElementById('booking-login-msg').style.display='none';loadBookingTreatments();}
-  else{document.getElementById('booking-form').style.display='none';document.getElementById('booking-login-msg').style.display='block';}
+  else{document.getElementById('booking-form').style.display='none';document.getElementById('booking-login-msg').style.display='block';
+    // If on admin view and logged out, go back to site
+    if(currentView==='admin') navigateTo('inicio');
+  }
 });
 
 // ── TREATMENTS ──
-function loadTreatments() {
-  return db.collection('treatments').get().then(function(snap){
-    treatmentsCache=[];snap.forEach(function(d){treatmentsCache.push({id:d.id,...d.data()});});
-    renderTreatments();renderAdminTreatments();console.log('[Data] Treatments:',treatmentsCache.length);
-  }).catch(function(err){console.error('[Data] Treatments:',err);document.getElementById('treatments-grid').innerHTML='<div class="empty-state">Próximamente nuestros tratamientos</div>';});
-}
-function renderTreatments() {
-  var g=document.getElementById('treatments-grid');
-  if(!treatmentsCache.length){g.innerHTML='<div class="empty-state">Próximamente nuestros tratamientos</div>';return;}
-  g.innerHTML=treatmentsCache.map(function(t){return '<div class="treatment-card reveal"><img src="'+t.image+'" alt="'+t.name+'" loading="lazy" onerror="this.src=\''+placeholderImg()+'\'"><div class="card-body"><h3>'+t.name+'</h3><p>'+t.description+'</p><span class="price">$'+Number(t.price).toLocaleString()+'</span></div></div>';}).join('');
-  observeReveal();
-}
-function renderAdminTreatments() {
-  var tb=document.getElementById('admin-treat-list');if(!tb)return;
-  tb.innerHTML=treatmentsCache.map(function(t){return '<tr><td>'+t.name+'</td><td>$'+Number(t.price).toLocaleString()+'</td><td class="actions"><button class="btn btn-outline btn-sm" onclick="editTreatment(\''+t.id+'\')">Editar</button><button class="btn btn-danger btn-sm" onclick="deleteTreatment(\''+t.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="3" style="text-align:center;color:var(--charcoal-light)">Sin tratamientos</td></tr>';
-}
-function saveTreatment(e) {
-  e.preventDefault();var id=document.getElementById('edit-treat-id').value||uid();
-  db.collection('treatments').doc(id).set({name:document.getElementById('treat-name').value.trim(),description:document.getElementById('treat-desc').value.trim(),price:document.getElementById('treat-price').value,image:document.getElementById('treat-image').value.trim()})
-  .then(function(){toast('Tratamiento guardado');clearTreatmentForm();loadTreatments();}).catch(function(err){toast(err.message,'error');});return false;
-}
-function editTreatment(id) {
-  var t=treatmentsCache.find(function(x){return x.id===id;});if(!t)return;
-  document.getElementById('edit-treat-id').value=id;document.getElementById('treat-name').value=t.name;
-  document.getElementById('treat-desc').value=t.description;document.getElementById('treat-price').value=t.price;document.getElementById('treat-image').value=t.image;
-}
+function loadTreatments(){return db.collection('treatments').get().then(function(snap){treatmentsCache=[];snap.forEach(function(d){treatmentsCache.push({id:d.id,...d.data()});});renderTreatments();renderAdminTreatments();}).catch(function(err){console.error('[T]',err);document.getElementById('treatments-grid').innerHTML='<div class="empty-state">Próximamente</div>';});}
+function renderTreatments(){var g=document.getElementById('treatments-grid');if(!treatmentsCache.length){g.innerHTML='<div class="empty-state">Próximamente nuestros tratamientos</div>';return;}g.innerHTML=treatmentsCache.map(function(t){return '<div class="treatment-card reveal"><img src="'+t.image+'" alt="'+t.name+'" loading="lazy" onerror="this.src=\''+placeholderImg()+'\'"><div class="card-body"><h3>'+t.name+'</h3><p>'+t.description+'</p><span class="price">$'+Number(t.price).toLocaleString()+'</span></div></div>';}).join('');observeReveal();}
+function renderAdminTreatments(){var tb=document.getElementById('admin-treat-list');if(!tb)return;tb.innerHTML=treatmentsCache.map(function(t){return '<tr><td>'+t.name+'</td><td>$'+Number(t.price).toLocaleString()+'</td><td class="actions"><button class="btn btn-outline btn-sm" onclick="editTreatment(\''+t.id+'\')">Editar</button><button class="btn btn-danger btn-sm" onclick="deleteTreatment(\''+t.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="3" style="text-align:center;color:var(--charcoal-light)">Sin tratamientos</td></tr>';}
+function saveTreatment(e){e.preventDefault();var id=document.getElementById('edit-treat-id').value||uid();db.collection('treatments').doc(id).set({name:document.getElementById('treat-name').value.trim(),description:document.getElementById('treat-desc').value.trim(),price:document.getElementById('treat-price').value,image:document.getElementById('treat-image').value.trim()}).then(function(){toast('Guardado');clearTreatmentForm();loadTreatments();}).catch(function(e){toast(e.message,'error');});return false;}
+function editTreatment(id){var t=treatmentsCache.find(function(x){return x.id===id;});if(!t)return;document.getElementById('edit-treat-id').value=id;document.getElementById('treat-name').value=t.name;document.getElementById('treat-desc').value=t.description;document.getElementById('treat-price').value=t.price;document.getElementById('treat-image').value=t.image;}
 function clearTreatmentForm(){['edit-treat-id','treat-name','treat-desc','treat-price','treat-image'].forEach(function(id){document.getElementById(id).value='';});}
 function deleteTreatment(id){if(!confirm('¿Eliminar?'))return;db.collection('treatments').doc(id).delete().then(function(){toast('Eliminado');loadTreatments();}).catch(function(e){toast(e.message,'error');});}
 
 // ── FLYERS ──
-function loadFlyers() {
-  return db.collection('flyers').get().then(function(snap){
-    flyersCache=[];snap.forEach(function(d){flyersCache.push({id:d.id,...d.data()});});
-    renderGallery();renderAdminFlyers();console.log('[Data] Flyers:',flyersCache.length);
-  }).catch(function(err){console.error('[Data] Flyers:',err);document.getElementById('gallery-grid').innerHTML='<div class="empty-state">Próximamente novedades</div>';});
-}
-function renderGallery() {
-  var g=document.getElementById('gallery-grid');
-  if(!flyersCache.length){g.innerHTML='<div class="empty-state">Próximamente novedades</div>';return;}
-  g.innerHTML=flyersCache.map(function(f){return '<div class="gallery-item reveal"><img src="'+f.url+'" alt="'+f.title+'" loading="lazy"></div>';}).join('');observeReveal();
-}
-function renderAdminFlyers() {
-  var tb=document.getElementById('admin-flyer-list');if(!tb)return;
-  tb.innerHTML=flyersCache.map(function(f){return '<tr><td>'+f.title+'</td><td class="actions"><button class="btn btn-danger btn-sm" onclick="deleteFlyer(\''+f.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="2" style="text-align:center;color:var(--charcoal-light)">Sin flyers</td></tr>';
-}
-function saveFlyer(e){e.preventDefault();db.collection('flyers').doc(uid()).set({title:document.getElementById('flyer-title').value.trim(),url:document.getElementById('flyer-url').value.trim()}).then(function(){toast('Flyer agregado');document.getElementById('flyer-title').value='';document.getElementById('flyer-url').value='';loadFlyers();}).catch(function(e){toast(e.message,'error');});return false;}
+function loadFlyers(){return db.collection('flyers').get().then(function(snap){flyersCache=[];snap.forEach(function(d){flyersCache.push({id:d.id,...d.data()});});renderGallery();renderAdminFlyers();}).catch(function(err){console.error('[F]',err);document.getElementById('gallery-grid').innerHTML='<div class="empty-state">Próximamente</div>';});}
+function renderGallery(){var g=document.getElementById('gallery-grid');if(!flyersCache.length){g.innerHTML='<div class="empty-state">Próximamente novedades</div>';return;}g.innerHTML=flyersCache.map(function(f){return '<div class="gallery-item reveal"><img src="'+f.url+'" alt="'+f.title+'" loading="lazy"></div>';}).join('');observeReveal();}
+function renderAdminFlyers(){var tb=document.getElementById('admin-flyer-list');if(!tb)return;tb.innerHTML=flyersCache.map(function(f){return '<tr><td>'+f.title+'</td><td class="actions"><button class="btn btn-danger btn-sm" onclick="deleteFlyer(\''+f.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="2" style="text-align:center;color:var(--charcoal-light)">Sin flyers</td></tr>';}
+function saveFlyer(e){e.preventDefault();db.collection('flyers').doc(uid()).set({title:document.getElementById('flyer-title').value.trim(),url:document.getElementById('flyer-url').value.trim()}).then(function(){toast('Agregado');document.getElementById('flyer-title').value='';document.getElementById('flyer-url').value='';loadFlyers();}).catch(function(e){toast(e.message,'error');});return false;}
 function deleteFlyer(id){if(!confirm('¿Eliminar?'))return;db.collection('flyers').doc(id).delete().then(function(){toast('Eliminado');loadFlyers();}).catch(function(e){toast(e.message,'error');});}
 
 // ── VIDEOS ──
-function loadVideos() {
-  return db.collection('videos').get().then(function(snap){
-    videosCache=[];snap.forEach(function(d){videosCache.push({id:d.id,...d.data()});});
-    renderVideos();renderAdminVideos();console.log('[Data] Videos:',videosCache.length);
-  }).catch(function(err){console.error('[Data] Videos:',err);document.getElementById('videos-grid').innerHTML='<div class="empty-state">Próximamente videos</div>';});
-}
-function renderVideos() {
-  var g=document.getElementById('videos-grid');
-  if(!videosCache.length){g.innerHTML='<div class="empty-state">Próximamente videos</div>';return;}
-  g.innerHTML=videosCache.map(function(v){return '<div class="video-item reveal"><div class="video-wrapper"><iframe src="'+getEmbedUrl(v.url)+'" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="video-title">'+v.title+'</div></div>';}).join('');observeReveal();
-}
-function renderAdminVideos() {
-  var tb=document.getElementById('admin-video-list');if(!tb)return;
-  tb.innerHTML=videosCache.map(function(v){return '<tr><td>'+v.title+'</td><td class="actions"><button class="btn btn-danger btn-sm" onclick="deleteVideo(\''+v.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="2" style="text-align:center;color:var(--charcoal-light)">Sin videos</td></tr>';
-}
-function saveVideo(e){e.preventDefault();db.collection('videos').doc(uid()).set({title:document.getElementById('video-title').value.trim(),url:document.getElementById('video-url').value.trim()}).then(function(){toast('Video agregado');document.getElementById('video-title').value='';document.getElementById('video-url').value='';loadVideos();}).catch(function(e){toast(e.message,'error');});return false;}
+function loadVideos(){return db.collection('videos').get().then(function(snap){videosCache=[];snap.forEach(function(d){videosCache.push({id:d.id,...d.data()});});renderVideos();renderAdminVideos();}).catch(function(err){console.error('[V]',err);document.getElementById('videos-grid').innerHTML='<div class="empty-state">Próximamente</div>';});}
+function renderVideos(){var g=document.getElementById('videos-grid');if(!videosCache.length){g.innerHTML='<div class="empty-state">Próximamente videos</div>';return;}g.innerHTML=videosCache.map(function(v){return '<div class="video-item reveal"><div class="video-wrapper"><iframe src="'+getEmbedUrl(v.url)+'" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="video-title">'+v.title+'</div></div>';}).join('');observeReveal();}
+function renderAdminVideos(){var tb=document.getElementById('admin-video-list');if(!tb)return;tb.innerHTML=videosCache.map(function(v){return '<tr><td>'+v.title+'</td><td class="actions"><button class="btn btn-danger btn-sm" onclick="deleteVideo(\''+v.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="2" style="text-align:center;color:var(--charcoal-light)">Sin videos</td></tr>';}
+function saveVideo(e){e.preventDefault();db.collection('videos').doc(uid()).set({title:document.getElementById('video-title').value.trim(),url:document.getElementById('video-url').value.trim()}).then(function(){toast('Agregado');document.getElementById('video-title').value='';document.getElementById('video-url').value='';loadVideos();}).catch(function(e){toast(e.message,'error');});return false;}
 function deleteVideo(id){if(!confirm('¿Eliminar?'))return;db.collection('videos').doc(id).delete().then(function(){toast('Eliminado');loadVideos();}).catch(function(e){toast(e.message,'error');});}
 
 // ── SCHEDULE ──
-function loadSchedule() {
-  return db.collection('config').doc('schedule').get().then(function(snap){
-    if(snap.exists){scheduleData=snap.data();
-      document.querySelectorAll('#schedule-days input').forEach(function(ch){ch.checked=(scheduleData.days||[]).indexOf(Number(ch.value))>-1;});
-      if(scheduleData.start)document.getElementById('sched-start').value=scheduleData.start;
-      if(scheduleData.end)document.getElementById('sched-end').value=scheduleData.end;
-      if(scheduleData.interval)document.getElementById('sched-interval').value=scheduleData.interval;
-    }renderCurrentSchedule();console.log('[Data] Schedule OK');
-  }).catch(function(err){console.error('[Data] Schedule:',err);});
-}
-function renderCurrentSchedule() {
-  var el=document.getElementById('current-schedule');
-  if(!scheduleData.days||!scheduleData.days.length){el.innerHTML='<p style="color:var(--charcoal-light);font-size:.9rem;">No se configuraron horarios aún</p>';return;}
-  el.innerHTML='<p style="font-size:.9rem;"><strong>Días:</strong> '+scheduleData.days.map(function(d){return dayNames[d];}).join(', ')+'<br><strong>Horario:</strong> '+scheduleData.start+' - '+scheduleData.end+'<br><strong>Intervalo:</strong> '+scheduleData.interval+' min</p>';
-}
-function saveSchedule(e){e.preventDefault();var days=[];document.querySelectorAll('#schedule-days input:checked').forEach(function(c){days.push(Number(c.value));});
-  var data={days:days,start:document.getElementById('sched-start').value,end:document.getElementById('sched-end').value,interval:Number(document.getElementById('sched-interval').value)};
-  db.collection('config').doc('schedule').set(data).then(function(){scheduleData=data;renderCurrentSchedule();toast('Horarios guardados');}).catch(function(e){toast(e.message,'error');});return false;}
+function loadSchedule(){return db.collection('config').doc('schedule').get().then(function(snap){if(snap.exists){scheduleData=snap.data();document.querySelectorAll('#schedule-days input').forEach(function(ch){ch.checked=(scheduleData.days||[]).indexOf(Number(ch.value))>-1;});if(scheduleData.start)document.getElementById('sched-start').value=scheduleData.start;if(scheduleData.end)document.getElementById('sched-end').value=scheduleData.end;if(scheduleData.interval)document.getElementById('sched-interval').value=scheduleData.interval;}renderCurrentSchedule();}).catch(function(err){console.error('[S]',err);});}
+function renderCurrentSchedule(){var el=document.getElementById('current-schedule');if(!scheduleData.days||!scheduleData.days.length){el.innerHTML='<p style="color:var(--charcoal-light);font-size:.9rem;">Sin configurar</p>';return;}el.innerHTML='<p style="font-size:.9rem;"><strong>Días:</strong> '+scheduleData.days.map(function(d){return dayNames[d];}).join(', ')+'<br><strong>Horario:</strong> '+scheduleData.start+' - '+scheduleData.end+'<br><strong>Intervalo:</strong> '+scheduleData.interval+' min</p>';}
+function saveSchedule(e){e.preventDefault();var days=[];document.querySelectorAll('#schedule-days input:checked').forEach(function(c){days.push(Number(c.value));});var data={days:days,start:document.getElementById('sched-start').value,end:document.getElementById('sched-end').value,interval:Number(document.getElementById('sched-interval').value)};db.collection('config').doc('schedule').set(data).then(function(){scheduleData=data;renderCurrentSchedule();toast('Guardado');}).catch(function(e){toast(e.message,'error');});return false;}
 
 // ── BOOKINGS ──
-function generateTimeSlots(start,end,interval){var slots=[],p=start.split(':'),h=+p[0],m=+p[1],ep=end.split(':'),eh=+ep[0],em=+ep[1];while(h<eh||(h===eh&&m<em)){slots.push(String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'));m+=interval;if(m>=60){h+=Math.floor(m/60);m%=60;}}return slots;}
+function generateTimeSlots(s,e,i){var slots=[],p=s.split(':'),h=+p[0],m=+p[1],ep=e.split(':'),eh=+ep[0],em=+ep[1];while(h<eh||(h===eh&&m<em)){slots.push(String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'));m+=i;if(m>=60){h+=Math.floor(m/60);m%=60;}}return slots;}
 function loadBookingTreatments(){var sel=document.getElementById('book-treatment'),cur=sel.value;sel.innerHTML='<option value="">Seleccioná un tratamiento</option>';treatmentsCache.forEach(function(t){sel.innerHTML+='<option value="'+t.id+'">'+t.name+' — $'+Number(t.price).toLocaleString()+'</option>';});sel.value=cur;document.getElementById('book-date').setAttribute('min',new Date().toISOString().split('T')[0]);}
-function loadAvailableSlots(){
-  var dateVal=document.getElementById('book-date').value,treatId=document.getElementById('book-treatment').value,c=document.getElementById('time-slots');
-  document.getElementById('book-time').value='';
-  if(!dateVal||!treatId){c.innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span>';return;}
-  var d=new Date(dateVal+'T12:00:00'),dow=d.getDay();
-  if(!scheduleData.days||scheduleData.days.indexOf(dow)===-1){c.innerHTML='<span style="font-size:.85rem;color:var(--error)">No hay atención este día</span>';return;}
-  var allSlots=generateTimeSlots(scheduleData.start,scheduleData.end,scheduleData.interval);
-  c.innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Cargando...</span>';
-  db.collection('bookings').where('date','==',dateVal).get().then(function(snap){
-    var occ=[];snap.forEach(function(d){var b=d.data();if(b.status!=='cancelled')occ.push(b.time);});
-    c.innerHTML=allSlots.map(function(s){var o=occ.indexOf(s)>-1;return '<span class="time-slot'+(o?' occupied':'')+'" onclick="'+(o?'':'selectSlot(this,\''+s+'\')')+'">'+s+(o?' (ocupado)':'')+'</span>';}).join('');
-  }).catch(function(err){console.error('[Booking]',err);c.innerHTML='<span style="font-size:.85rem;color:var(--error)">Error cargando horarios</span>';});
-}
-function selectSlot(el,time){document.querySelectorAll('.time-slot').forEach(function(s){s.classList.remove('selected');});el.classList.add('selected');document.getElementById('book-time').value=time;}
-function submitBooking(e){
-  e.preventDefault();var time=document.getElementById('book-time').value;if(!time){toast('Seleccioná un horario','error');return false;}
-  var dateVal=document.getElementById('book-date').value,treatId=document.getElementById('book-treatment').value,treat=treatmentsCache.find(function(t){return t.id===treatId;});
-  db.collection('bookings').where('date','==',dateVal).where('time','==',time).get().then(function(snap){
-    var taken=false;snap.forEach(function(d){if(d.data().status!=='cancelled')taken=true;});
-    if(taken){toast('Horario ocupado, elegí otro','error');loadAvailableSlots();return;}
-    return db.collection('bookings').doc(uid()).set({userId:currentUser.uid,userEmail:currentUser.email,treatmentId:treatId,treatmentName:treat?treat.name:'N/A',date:dateVal,time:time,notes:document.getElementById('book-notes').value.trim(),status:'pending',createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-  }).then(function(r){if(r!==undefined){toast('Reserva creada');document.getElementById('booking-form').reset();document.getElementById('time-slots').innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span>';}}).catch(function(err){toast('Error: '+err.message,'error');});return false;
-}
+function loadAvailableSlots(){var dv=document.getElementById('book-date').value,ti=document.getElementById('book-treatment').value,c=document.getElementById('time-slots');document.getElementById('book-time').value='';if(!dv||!ti){c.innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span>';return;}var d=new Date(dv+'T12:00:00'),dow=d.getDay();if(!scheduleData.days||scheduleData.days.indexOf(dow)===-1){c.innerHTML='<span style="font-size:.85rem;color:var(--error)">No hay atención este día</span>';return;}var allSlots=generateTimeSlots(scheduleData.start,scheduleData.end,scheduleData.interval);c.innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Cargando...</span>';db.collection('bookings').where('date','==',dv).get().then(function(snap){var occ=[];snap.forEach(function(d){var b=d.data();if(b.status!=='cancelled')occ.push(b.time);});c.innerHTML=allSlots.map(function(s){var o=occ.indexOf(s)>-1;return '<span class="time-slot'+(o?' occupied':'')+'" onclick="'+(o?'':'selectSlot(this,\''+s+'\')')+'">'+s+(o?' (ocupado)':'')+'</span>';}).join('');}).catch(function(){c.innerHTML='<span style="font-size:.85rem;color:var(--error)">Error</span>';});}
+function selectSlot(el,t){document.querySelectorAll('.time-slot').forEach(function(s){s.classList.remove('selected');});el.classList.add('selected');document.getElementById('book-time').value=t;}
+function submitBooking(e){e.preventDefault();var time=document.getElementById('book-time').value;if(!time){toast('Seleccioná un horario','error');return false;}var dv=document.getElementById('book-date').value,ti=document.getElementById('book-treatment').value,treat=treatmentsCache.find(function(t){return t.id===ti;});db.collection('bookings').where('date','==',dv).where('time','==',time).get().then(function(snap){var taken=false;snap.forEach(function(d){if(d.data().status!=='cancelled')taken=true;});if(taken){toast('Horario ocupado','error');loadAvailableSlots();return;}return db.collection('bookings').doc(uid()).set({userId:currentUser.uid,userEmail:currentUser.email,treatmentId:ti,treatmentName:treat?treat.name:'N/A',date:dv,time:time,notes:document.getElementById('book-notes').value.trim(),status:'pending',createdAt:firebase.firestore.FieldValue.serverTimestamp()});}).then(function(r){if(r!==undefined){toast('Reserva creada');document.getElementById('booking-form').reset();document.getElementById('time-slots').innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span>';}}).catch(function(err){toast('Error: '+err.message,'error');});return false;}
 
 // ── ADMIN ──
-function loadAdminBookings(){
-  db.collection('bookings').orderBy('date','desc').get().then(function(snap){
-    var tb=document.getElementById('admin-booking-list'),h='';
-    snap.forEach(function(d){var b=d.data(),bg=b.status==='approved'?'badge-approved':b.status==='cancelled'?'badge-cancelled':'badge-pending';
-      h+='<tr><td>'+b.userEmail+'</td><td>'+b.treatmentName+'</td><td>'+b.date+'</td><td>'+b.time+'</td><td><span class="badge '+bg+'">'+b.status+'</span></td><td class="actions">'+(b.status==='pending'?'<button class="btn btn-primary btn-sm" onclick="updateBooking(\''+d.id+'\',\'approved\')">Aprobar</button>':'')+(b.status!=='cancelled'?'<button class="btn btn-danger btn-sm" onclick="updateBooking(\''+d.id+'\',\'cancelled\')">Cancelar</button>':'')+'</td></tr>';});
-    tb.innerHTML=h||'<tr><td colspan="6" style="text-align:center;color:var(--charcoal-light)">Sin reservas</td></tr>';
-  }).catch(function(e){console.error('[Admin]',e);});
-}
-function updateBooking(id,status){db.collection('bookings').doc(id).update({status:status}).then(function(){toast('Reserva '+(status==='approved'?'aprobada':'cancelada'));loadAdminBookings();}).catch(function(e){toast(e.message,'error');});}
-function loadAdminUsers(){
-  db.collection('users').get().then(function(snap){
-    var tb=document.getElementById('admin-user-list'),h='';
-    snap.forEach(function(d){var u=d.data(),dt=u.createdAt?new Date(u.createdAt.seconds*1000).toLocaleDateString('es-UY'):'-';h+='<tr><td>'+u.name+'</td><td>'+u.email+'</td><td>'+dt+'</td></tr>';});
-    tb.innerHTML=h||'<tr><td colspan="3" style="text-align:center;color:var(--charcoal-light)">Sin usuarios</td></tr>';
-  }).catch(function(e){console.error('[Admin]',e);});
-}
-function toggleAdmin(){
-  var p=document.getElementById('admin-panel'),s=document.getElementById('main-site');
-  if(p.classList.contains('active')){p.classList.remove('active');s.style.display='';}
-  else{if(!isAdmin){toast('Acceso denegado','error');return;}p.classList.add('active');s.style.display='none';loadAdminBookings();loadAdminUsers();loadSchedule();}
-  window.scrollTo(0,0);
-}
-function switchAdminTab(btn,tabId){
-  document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.admin-section').forEach(function(s){s.classList.remove('active');});
-  document.getElementById(tabId).classList.add('active');btn.classList.add('active');
-  if(tabId==='admin-bookings')loadAdminBookings();if(tabId==='admin-users')loadAdminUsers();if(tabId==='admin-schedule')loadSchedule();
-}
+function loadAdminBookings(){db.collection('bookings').orderBy('date','desc').get().then(function(snap){var tb=document.getElementById('admin-booking-list'),h='';snap.forEach(function(d){var b=d.data(),bg=b.status==='approved'?'badge-approved':b.status==='cancelled'?'badge-cancelled':'badge-pending';h+='<tr><td>'+b.userEmail+'</td><td>'+b.treatmentName+'</td><td>'+b.date+'</td><td>'+b.time+'</td><td><span class="badge '+bg+'">'+b.status+'</span></td><td class="actions">'+(b.status==='pending'?'<button class="btn btn-primary btn-sm" onclick="updateBooking(\''+d.id+'\',\'approved\')">Aprobar</button>':'')+(b.status!=='cancelled'?'<button class="btn btn-danger btn-sm" onclick="updateBooking(\''+d.id+'\',\'cancelled\')">Cancelar</button>':'')+'</td></tr>';});tb.innerHTML=h||'<tr><td colspan="6" style="text-align:center;color:var(--charcoal-light)">Sin reservas</td></tr>';}).catch(function(e){console.error('[AB]',e);});}
+function updateBooking(id,st){db.collection('bookings').doc(id).update({status:st}).then(function(){toast('Reserva '+(st==='approved'?'aprobada':'cancelada'));loadAdminBookings();}).catch(function(e){toast(e.message,'error');});}
+function loadAdminUsers(){db.collection('users').get().then(function(snap){var tb=document.getElementById('admin-user-list'),h='';snap.forEach(function(d){var u=d.data(),dt=u.createdAt?new Date(u.createdAt.seconds*1000).toLocaleDateString('es-UY'):'-';h+='<tr><td>'+u.name+'</td><td>'+u.email+'</td><td>'+dt+'</td></tr>';});tb.innerHTML=h||'<tr><td colspan="3" style="text-align:center;color:var(--charcoal-light)">Sin usuarios</td></tr>';}).catch(function(e){console.error('[AU]',e);});}
+function switchAdminTab(btn,tabId){document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.admin-section').forEach(function(s){s.classList.remove('active');});document.getElementById(tabId).classList.add('active');btn.classList.add('active');if(tabId==='at-bookings')loadAdminBookings();if(tabId==='at-users')loadAdminUsers();if(tabId==='at-schedule')loadSchedule();}
 function sendContact(e){e.preventDefault();db.collection('messages').doc(uid()).set({name:document.getElementById('contact-name').value.trim(),email:document.getElementById('contact-email').value.trim(),message:document.getElementById('contact-msg').value.trim(),createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){toast('Mensaje enviado');document.getElementById('contact-form').reset();}).catch(function(e){toast(e.message,'error');});return false;}
 
-// ══════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════
+// ── INIT ──
 function init(){
-  console.log('[AngelSpa] Iniciando...');
-  if(!db){console.error('[AngelSpa] Firestore no disponible');
-    document.getElementById('treatments-grid').innerHTML='<div class="empty-state">Error de conexión</div>';
-    document.getElementById('gallery-grid').innerHTML='<div class="empty-state">Error de conexión</div>';
-    document.getElementById('videos-grid').innerHTML='<div class="empty-state">Error de conexión</div>';
-    window.__hideLoader();return;}
-  Promise.all([
-    loadTreatments().catch(function(e){console.warn('T:',e);}),
-    loadFlyers().catch(function(e){console.warn('F:',e);}),
-    loadVideos().catch(function(e){console.warn('V:',e);}),
-    loadSchedule().catch(function(e){console.warn('S:',e);})
-  ]).then(function(){console.log('[AngelSpa] Todo cargado');}).catch(function(){}).finally(function(){window.__hideLoader();observeReveal();console.log('[AngelSpa] Listo');});
+  if(!db){document.getElementById('treatments-grid').innerHTML=document.getElementById('gallery-grid').innerHTML=document.getElementById('videos-grid').innerHTML='<div class="empty-state">Error de conexión</div>';window.__hideLoader();return;}
+  Promise.all([loadTreatments().catch(function(){}),loadFlyers().catch(function(){}),loadVideos().catch(function(){}),loadSchedule().catch(function(){})]).finally(function(){window.__hideLoader();observeReveal();});
 }
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 </script>
