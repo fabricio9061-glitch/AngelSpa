@@ -110,6 +110,13 @@ section{padding:6rem 2rem}
 .gallery-item{border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;aspect-ratio:3/4}
 .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
 .gallery-item:hover img{transform:scale(1.06)}
+.gallery-card{border-radius:var(--radius);overflow:hidden;background:var(--white);box-shadow:var(--shadow-sm);transition:transform var(--transition),box-shadow var(--transition)}
+.gallery-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.gallery-card img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .5s ease}
+.gallery-card:hover img{transform:scale(1.04)}
+.gallery-card .gc-body{padding:1rem 1.2rem}
+.gallery-card .gc-title{font-family:var(--font-display);font-size:1.1rem;font-weight:500;color:var(--charcoal);margin-bottom:.3rem}
+.gallery-card .gc-desc{font-size:.85rem;color:var(--charcoal-light);line-height:1.6}
 
 #videos{background:var(--white)}
 .videos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2rem}
@@ -426,8 +433,12 @@ section{padding:6rem 2rem}
       <div class="admin-card"><h4>Tratamientos existentes</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Nombre</th><th>Precio</th><th>Duración</th><th>Acciones</th></tr></thead><tbody id="admin-treat-list"></tbody></table></div></div>
     </div>
     <div class="admin-section" id="at-flyers">
-      <div class="admin-card"><h4>Agregar Flyer</h4><form onsubmit="return saveFlyer(event)"><div class="form-group"><label>Título</label><input type="text" id="flyer-title" required></div><div class="form-group"><label>URL Imagen</label><input type="url" id="flyer-url" placeholder="https://..." required></div><button type="submit" class="btn btn-primary btn-sm">Agregar</button></form></div>
-      <div class="admin-card"><h4>Flyers</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Título</th><th>Acciones</th></tr></thead><tbody id="admin-flyer-list"></tbody></table></div></div>
+      <div class="admin-card"><h4>Agregar / Editar Flyer</h4><form onsubmit="return saveFlyer(event)"><input type="hidden" id="edit-flyer-id">
+        <div class="form-group"><label>Título</label><input type="text" id="flyer-title" required></div>
+        <div class="form-group"><label>Descripción (opcional)</label><textarea id="flyer-desc" rows="2" placeholder="Información sobre la promo, evento, etc."></textarea></div>
+        <div class="form-group"><label>URL Imagen</label><input type="url" id="flyer-url" placeholder="https://..." required></div>
+        <div style="display:flex;gap:.5rem"><button type="submit" class="btn btn-primary btn-sm">Guardar</button><button type="button" class="btn btn-outline btn-sm" onclick="clearFlyerForm()">Limpiar</button></div></form></div>
+      <div class="admin-card"><h4>Flyers existentes</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Título</th><th>Descripción</th><th>Acciones</th></tr></thead><tbody id="admin-flyer-list"></tbody></table></div></div>
     </div>
     <div class="admin-section" id="at-videos">
       <div class="admin-card"><h4>Agregar Video</h4><form onsubmit="return saveVideo(event)"><div class="form-group"><label>Título</label><input type="text" id="video-title" required></div><div class="form-group"><label>Descripción</label><textarea id="video-desc" rows="2" placeholder="Descripción del video..."></textarea></div><div class="form-group"><label>URL (YouTube, Instagram Reel)</label><input type="url" id="video-url" placeholder="https://youtube.com/watch?v=... o https://instagram.com/reel/..." required></div><button type="submit" class="btn btn-primary btn-sm">Agregar</button></form></div>
@@ -569,9 +580,11 @@ function deleteTreatment(id){if(!confirm('¿Eliminar?'))return;db.collection('tr
 
 // ── FLYERS ──
 function loadFlyers(){return db.collection('flyers').get().then(function(snap){flyersCache=[];snap.forEach(function(d){flyersCache.push({id:d.id,...d.data()});});renderGallery();renderAdminFlyers();}).catch(function(err){console.error('[F]',err);document.getElementById('gallery-grid').innerHTML='<div class="empty-state">Próximamente</div>';});}
-function renderGallery(){var g=document.getElementById('gallery-grid');if(!flyersCache.length){g.innerHTML='<div class="empty-state">Próximamente novedades</div>';return;}g.innerHTML=flyersCache.map(function(f){return '<div class="gallery-item reveal"><img src="'+f.url+'" alt="'+f.title+'" loading="lazy"></div>';}).join('');observeReveal();}
-function renderAdminFlyers(){var tb=document.getElementById('admin-flyer-list');if(!tb)return;tb.innerHTML=flyersCache.map(function(f){return '<tr><td>'+f.title+'</td><td class="actions"><button class="btn btn-danger btn-sm" onclick="deleteFlyer(\''+f.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="2" style="text-align:center;color:var(--charcoal-light)">Sin flyers</td></tr>';}
-function saveFlyer(e){e.preventDefault();db.collection('flyers').doc(uid()).set({title:document.getElementById('flyer-title').value.trim(),url:document.getElementById('flyer-url').value.trim()}).then(function(){toast('Agregado');document.getElementById('flyer-title').value='';document.getElementById('flyer-url').value='';loadFlyers();}).catch(function(e){toast(e.message,'error');});return false;}
+function renderGallery(){var g=document.getElementById('gallery-grid');if(!flyersCache.length){g.innerHTML='<div class="empty-state">Próximamente novedades</div>';return;}g.innerHTML=flyersCache.map(function(f){var hasText=f.title||f.description;if(hasText){return '<div class="gallery-card reveal"><img src="'+f.url+'" alt="'+(f.title||'')+'" loading="lazy"><div class="gc-body">'+(f.title?'<div class="gc-title">'+f.title+'</div>':'')+(f.description?'<div class="gc-desc">'+f.description+'</div>':'')+'</div></div>';}return '<div class="gallery-item reveal"><img src="'+f.url+'" alt="Flyer" loading="lazy"></div>';}).join('');observeReveal();}
+function renderAdminFlyers(){var tb=document.getElementById('admin-flyer-list');if(!tb)return;tb.innerHTML=flyersCache.map(function(f){var desc=f.description?f.description.substring(0,50)+(f.description.length>50?'...':''):'—';return '<tr><td>'+f.title+'</td><td style="font-size:.82rem;color:var(--charcoal-light)">'+desc+'</td><td class="actions"><button class="btn btn-outline btn-sm" onclick="editFlyer(\''+f.id+'\')">Editar</button><button class="btn btn-danger btn-sm" onclick="deleteFlyer(\''+f.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="3" style="text-align:center;color:var(--charcoal-light)">Sin flyers</td></tr>';}
+function saveFlyer(e){e.preventDefault();var id=document.getElementById('edit-flyer-id').value||uid();db.collection('flyers').doc(id).set({title:document.getElementById('flyer-title').value.trim(),description:document.getElementById('flyer-desc').value.trim(),url:document.getElementById('flyer-url').value.trim()}).then(function(){toast('Flyer guardado');clearFlyerForm();loadFlyers();}).catch(function(e){toast(e.message,'error');});return false;}
+function editFlyer(id){var f=flyersCache.find(function(x){return x.id===id;});if(!f)return;document.getElementById('edit-flyer-id').value=id;document.getElementById('flyer-title').value=f.title||'';document.getElementById('flyer-desc').value=f.description||'';document.getElementById('flyer-url').value=f.url||'';}
+function clearFlyerForm(){['edit-flyer-id','flyer-title','flyer-desc','flyer-url'].forEach(function(id){document.getElementById(id).value='';});}
 function deleteFlyer(id){if(!confirm('¿Eliminar?'))return;db.collection('flyers').doc(id).delete().then(function(){toast('Eliminado');loadFlyers();}).catch(function(e){toast(e.message,'error');});}
 
 // ── VIDEOS ──
