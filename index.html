@@ -116,7 +116,16 @@ section{padding:6rem 2rem}
 .video-item{border-radius:var(--radius);overflow:hidden;background:var(--cream);box-shadow:var(--shadow-sm)}
 .video-item .video-wrapper{position:relative;padding-bottom:56.25%;height:0}
 .video-item iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
-.video-item .video-title{padding:1rem 1.2rem;font-family:var(--font-display);font-size:1.1rem;font-weight:500}
+.video-item .video-title{padding:1rem 1.2rem .3rem;font-family:var(--font-display);font-size:1.1rem;font-weight:500}
+.video-item .video-desc{padding:0 1.2rem 1.2rem;font-size:.88rem;color:var(--charcoal-light);line-height:1.6}
+.video-item .ig-wrapper{position:relative;min-height:480px;background:var(--cream-dark)}
+.video-item .ig-wrapper iframe{width:100%;min-height:480px;border:none}
+.booking-tip{background:linear-gradient(135deg,var(--sage-light) 0%,var(--blush-light) 100%);border-radius:var(--radius);padding:1.3rem 1.5rem;margin-bottom:1.5rem;display:flex;gap:1rem;align-items:flex-start}
+.booking-tip svg{width:24px;height:24px;flex-shrink:0;color:var(--sage-dark);margin-top:2px}
+.booking-tip p{font-size:.88rem;color:var(--charcoal);line-height:1.65}
+.booking-tip strong{color:var(--sage-dark)}
+.booking-confirm-msg{background:var(--cream);border-left:3px solid var(--sage);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1.5rem 0;font-size:.85rem;color:var(--charcoal-light);line-height:1.7}
+.booking-confirm-msg em{font-style:italic;color:var(--sage-dark)}
 
 #reservas{background:var(--cream)}
 .booking-wrapper{max-width:700px;margin:0 auto;background:var(--white);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow-md)}
@@ -130,7 +139,7 @@ section{padding:6rem 2rem}
 .time-slot:hover{border-color:var(--sage)}
 .time-slot.selected{background:var(--sage);color:var(--white);border-color:var(--sage)}
 .time-slot.occupied{opacity:.35;pointer-events:none;text-decoration:line-through}
-#booking-login-msg{text-align:center;padding:2rem;font-size:1rem;color:var(--charcoal-light)}
+.booking-tip+form{}
 
 #contacto{background:var(--white)}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:900px;margin:0 auto}
@@ -307,15 +316,24 @@ section{padding:6rem 2rem}
   <div class="container">
     <div class="section-header reveal"><p class="section-tag">Tu momento</p><h2 class="section-title">Reservar Turno</h2><div class="section-line"></div></div>
     <div class="booking-wrapper">
-      <div id="booking-login-msg"><p>Iniciá sesión para reservar tu turno</p><br><button class="btn btn-primary" onclick="openModal('login')">Ingresar</button></div>
-      <form id="booking-form" style="display:none" onsubmit="return submitBooking(event)">
-        <div class="form-group"><label>Tratamiento</label><select id="book-treatment" onchange="loadAvailableSlots()" required><option value="">Seleccioná un tratamiento</option></select></div>
+      <div class="booking-tip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <p><strong>Recomendación:</strong> Le sugerimos asistir con al menos 10 minutos de anticipación para brindarle una experiencia más relajada y organizada. Su puntualidad nos permite ofrecerle un servicio de excelencia.</p>
+      </div>
+      <form id="booking-form" onsubmit="return submitBooking(event)">
         <div class="form-row">
-          <div class="form-group"><label>Fecha</label><input type="date" id="book-date" onchange="loadAvailableSlots()" required></div>
-          <div class="form-group"><label>Horario disponible</label><div class="time-slots" id="time-slots"><span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span></div><input type="hidden" id="book-time"></div>
+          <div class="form-group"><label>Nombre *</label><input type="text" id="book-name" placeholder="Tu nombre" required></div>
+          <div class="form-group"><label>Apellido *</label><input type="text" id="book-surname" placeholder="Tu apellido" required></div>
+        </div>
+        <div class="form-group"><label>Teléfono *</label><input type="tel" id="book-phone" placeholder="+598 99 123 456" required></div>
+        <div class="form-group"><label>Tratamiento *</label><select id="book-treatment" onchange="loadAvailableSlots()" required><option value="">Seleccioná un tratamiento</option></select></div>
+        <div class="form-row">
+          <div class="form-group"><label>Fecha *</label><input type="date" id="book-date" onchange="loadAvailableSlots()" required></div>
+          <div class="form-group"><label>Horario disponible *</label><div class="time-slots" id="time-slots"><span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span></div><input type="hidden" id="book-time"></div>
         </div>
         <div class="form-group"><label>Notas (opcional)</label><textarea id="book-notes" rows="2" placeholder="Alguna indicación especial..."></textarea></div>
-        <button type="submit" class="btn btn-primary">Confirmar reserva</button>
+        <div class="booking-confirm-msg"><em>Al confirmar su reserva, le pedimos puntualidad para garantizar la mejor experiencia.</em> Recibirá la confirmación por parte de nuestro equipo. ¡Gracias por elegirnos!</div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Confirmar reserva</button>
       </form>
     </div>
   </div>
@@ -389,7 +407,7 @@ section{padding:6rem 2rem}
       <div class="admin-card"><h4>Flyers</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Título</th><th>Acciones</th></tr></thead><tbody id="admin-flyer-list"></tbody></table></div></div>
     </div>
     <div class="admin-section" id="at-videos">
-      <div class="admin-card"><h4>Agregar Video</h4><form onsubmit="return saveVideo(event)"><div class="form-group"><label>Título</label><input type="text" id="video-title" required></div><div class="form-group"><label>URL (YouTube, Vimeo)</label><input type="url" id="video-url" placeholder="https://youtube.com/watch?v=..." required></div><button type="submit" class="btn btn-primary btn-sm">Agregar</button></form></div>
+      <div class="admin-card"><h4>Agregar Video</h4><form onsubmit="return saveVideo(event)"><div class="form-group"><label>Título</label><input type="text" id="video-title" required></div><div class="form-group"><label>Descripción</label><textarea id="video-desc" rows="2" placeholder="Descripción del video..."></textarea></div><div class="form-group"><label>URL (YouTube, Instagram Reel)</label><input type="url" id="video-url" placeholder="https://youtube.com/watch?v=... o https://instagram.com/reel/..." required></div><button type="submit" class="btn btn-primary btn-sm">Agregar</button></form></div>
       <div class="admin-card"><h4>Videos</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Título</th><th>Acciones</th></tr></thead><tbody id="admin-video-list"></tbody></table></div></div>
     </div>
     <div class="admin-section" id="at-schedule">
@@ -410,7 +428,7 @@ section{padding:6rem 2rem}
       </div>
       <div class="admin-card"><h4>Actual</h4><div id="current-schedule"><p style="color:var(--charcoal-light);font-size:.9rem;">Sin configurar</p></div></div>
     </div>
-    <div class="admin-section" id="at-bookings"><div class="admin-card"><h4>Reservas</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Cliente</th><th>Tratamiento</th><th>Fecha</th><th>Hora</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="admin-booking-list"></tbody></table></div></div></div>
+    <div class="admin-section" id="at-bookings"><div class="admin-card"><h4>Reservas</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Cliente</th><th>Teléfono</th><th>Tratamiento</th><th>Fecha</th><th>Hora</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="admin-booking-list"></tbody></table></div></div></div>
     <div class="admin-section" id="at-users"><div class="admin-card"><h4>Usuarios</h4><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Nombre</th><th>Email</th><th>Registro</th></tr></thead><tbody id="admin-user-list"></tbody></table></div></div></div>
   </div>
 </div>
@@ -445,6 +463,8 @@ function closeModal(n){document.getElementById('modal-'+n).classList.remove('act
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
 function placeholderImg(){return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23EDE8E0' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' fill='%23A8B5A0' font-size='18' text-anchor='middle' dy='.3em'%3EAngel Spa%3C/text%3E%3C/svg%3E";}
 function getEmbedUrl(url){try{if(url.indexOf('youtube.com/watch')>-1)return 'https://www.youtube.com/embed/'+new URL(url).searchParams.get('v');if(url.indexOf('youtu.be/')>-1)return 'https://www.youtube.com/embed/'+url.split('youtu.be/')[1].split('?')[0];if(url.indexOf('vimeo.com/')>-1)return 'https://player.vimeo.com/video/'+url.split('vimeo.com/')[1].split('?')[0];return url;}catch(e){return url;}}
+function isInstagramUrl(url){return url&&(url.indexOf('instagram.com/reel')>-1||url.indexOf('instagram.com/p/')>-1||url.indexOf('instagram.com/tv/')>-1);}
+function getInstagramEmbedUrl(url){try{var clean=url.split('?')[0];if(!clean.endsWith('/'))clean+='/';return clean+'embed/';}catch(e){return url;}}
 function observeReveal(){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.15});document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){obs.observe(el);});}
 
 // ══════════════════════════════════════
@@ -518,11 +538,8 @@ function updateAuthUI(){
 
 if(auth) auth.onAuthStateChanged(function(user){
   currentUser=user;isAdmin=user&&user.email===ADMIN_EMAIL;updateAuthUI();
-  if(user){document.getElementById('booking-form').style.display='block';document.getElementById('booking-login-msg').style.display='none';loadBookingTreatments();}
-  else{document.getElementById('booking-form').style.display='none';document.getElementById('booking-login-msg').style.display='block';
-    // If on admin view and logged out, go back to site
-    if(currentView==='admin') navigateTo('inicio');
-  }
+  // If on admin view and logged out, go back to site
+  if(!user&&currentView==='admin') navigateTo('inicio');
 });
 
 // ── TREATMENTS ──
@@ -543,9 +560,9 @@ function deleteFlyer(id){if(!confirm('¿Eliminar?'))return;db.collection('flyers
 
 // ── VIDEOS ──
 function loadVideos(){return db.collection('videos').get().then(function(snap){videosCache=[];snap.forEach(function(d){videosCache.push({id:d.id,...d.data()});});renderVideos();renderAdminVideos();}).catch(function(err){console.error('[V]',err);document.getElementById('videos-grid').innerHTML='<div class="empty-state">Próximamente</div>';});}
-function renderVideos(){var g=document.getElementById('videos-grid');if(!videosCache.length){g.innerHTML='<div class="empty-state">Próximamente videos</div>';return;}g.innerHTML=videosCache.map(function(v){return '<div class="video-item reveal"><div class="video-wrapper"><iframe src="'+getEmbedUrl(v.url)+'" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="video-title">'+v.title+'</div></div>';}).join('');observeReveal();}
-function renderAdminVideos(){var tb=document.getElementById('admin-video-list');if(!tb)return;tb.innerHTML=videosCache.map(function(v){return '<tr><td>'+v.title+'</td><td class="actions"><button class="btn btn-danger btn-sm" onclick="deleteVideo(\''+v.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="2" style="text-align:center;color:var(--charcoal-light)">Sin videos</td></tr>';}
-function saveVideo(e){e.preventDefault();db.collection('videos').doc(uid()).set({title:document.getElementById('video-title').value.trim(),url:document.getElementById('video-url').value.trim()}).then(function(){toast('Agregado');document.getElementById('video-title').value='';document.getElementById('video-url').value='';loadVideos();}).catch(function(e){toast(e.message,'error');});return false;}
+function renderVideos(){var g=document.getElementById('videos-grid');if(!videosCache.length){g.innerHTML='<div class="empty-state">Próximamente videos</div>';return;}g.innerHTML=videosCache.map(function(v){var isIG=isInstagramUrl(v.url);var embedHtml='';if(isIG){embedHtml='<div class="ig-wrapper"><iframe src="'+getInstagramEmbedUrl(v.url)+'" allowfullscreen loading="lazy" scrolling="no"></iframe></div>';}else{embedHtml='<div class="video-wrapper"><iframe src="'+getEmbedUrl(v.url)+'" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>';}return '<div class="video-item reveal">'+embedHtml+'<div class="video-title">'+v.title+'</div>'+(v.description?'<div class="video-desc">'+v.description+'</div>':'')+'</div>';}).join('');observeReveal();}
+function renderAdminVideos(){var tb=document.getElementById('admin-video-list');if(!tb)return;tb.innerHTML=videosCache.map(function(v){return '<tr><td><strong>'+v.title+'</strong>'+(v.description?'<br><span style="font-size:.8rem;color:var(--charcoal-light)">'+v.description.substring(0,60)+(v.description.length>60?'...':'')+'</span>':'')+'</td><td class="actions"><button class="btn btn-danger btn-sm" onclick="deleteVideo(\''+v.id+'\')">Eliminar</button></td></tr>';}).join('')||'<tr><td colspan="2" style="text-align:center;color:var(--charcoal-light)">Sin videos</td></tr>';}
+function saveVideo(e){e.preventDefault();db.collection('videos').doc(uid()).set({title:document.getElementById('video-title').value.trim(),description:document.getElementById('video-desc').value.trim(),url:document.getElementById('video-url').value.trim()}).then(function(){toast('Agregado');document.getElementById('video-title').value='';document.getElementById('video-desc').value='';document.getElementById('video-url').value='';loadVideos();}).catch(function(e){toast(e.message,'error');});return false;}
 function deleteVideo(id){if(!confirm('¿Eliminar?'))return;db.collection('videos').doc(id).delete().then(function(){toast('Eliminado');loadVideos();}).catch(function(e){toast(e.message,'error');});}
 
 // ── SCHEDULE ──
@@ -558,10 +575,10 @@ function generateTimeSlots(s,e,i){var slots=[],p=s.split(':'),h=+p[0],m=+p[1],ep
 function loadBookingTreatments(){var sel=document.getElementById('book-treatment'),cur=sel.value;sel.innerHTML='<option value="">Seleccioná un tratamiento</option>';treatmentsCache.forEach(function(t){sel.innerHTML+='<option value="'+t.id+'">'+t.name+' — $'+Number(t.price).toLocaleString()+'</option>';});sel.value=cur;document.getElementById('book-date').setAttribute('min',new Date().toISOString().split('T')[0]);}
 function loadAvailableSlots(){var dv=document.getElementById('book-date').value,ti=document.getElementById('book-treatment').value,c=document.getElementById('time-slots');document.getElementById('book-time').value='';if(!dv||!ti){c.innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span>';return;}var d=new Date(dv+'T12:00:00'),dow=d.getDay();if(!scheduleData.days||scheduleData.days.indexOf(dow)===-1){c.innerHTML='<span style="font-size:.85rem;color:var(--error)">No hay atención este día</span>';return;}var allSlots=generateTimeSlots(scheduleData.start,scheduleData.end,scheduleData.interval);c.innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Cargando...</span>';db.collection('bookings').where('date','==',dv).get().then(function(snap){var occ=[];snap.forEach(function(d){var b=d.data();if(b.status!=='cancelled')occ.push(b.time);});c.innerHTML=allSlots.map(function(s){var o=occ.indexOf(s)>-1;return '<span class="time-slot'+(o?' occupied':'')+'" onclick="'+(o?'':'selectSlot(this,\''+s+'\')')+'">'+s+(o?' (ocupado)':'')+'</span>';}).join('');}).catch(function(){c.innerHTML='<span style="font-size:.85rem;color:var(--error)">Error</span>';});}
 function selectSlot(el,t){document.querySelectorAll('.time-slot').forEach(function(s){s.classList.remove('selected');});el.classList.add('selected');document.getElementById('book-time').value=t;}
-function submitBooking(e){e.preventDefault();var time=document.getElementById('book-time').value;if(!time){toast('Seleccioná un horario','error');return false;}var dv=document.getElementById('book-date').value,ti=document.getElementById('book-treatment').value,treat=treatmentsCache.find(function(t){return t.id===ti;});db.collection('bookings').where('date','==',dv).where('time','==',time).get().then(function(snap){var taken=false;snap.forEach(function(d){if(d.data().status!=='cancelled')taken=true;});if(taken){toast('Horario ocupado','error');loadAvailableSlots();return;}return db.collection('bookings').doc(uid()).set({userId:currentUser.uid,userEmail:currentUser.email,treatmentId:ti,treatmentName:treat?treat.name:'N/A',date:dv,time:time,notes:document.getElementById('book-notes').value.trim(),status:'pending',createdAt:firebase.firestore.FieldValue.serverTimestamp()});}).then(function(r){if(r!==undefined){toast('Reserva creada');document.getElementById('booking-form').reset();document.getElementById('time-slots').innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span>';}}).catch(function(err){toast('Error: '+err.message,'error');});return false;}
+function submitBooking(e){e.preventDefault();var time=document.getElementById('book-time').value;if(!time){toast('Seleccioná un horario','error');return false;}var nm=document.getElementById('book-name').value.trim(),sn=document.getElementById('book-surname').value.trim(),ph=document.getElementById('book-phone').value.trim();if(!nm||!sn||!ph){toast('Completá nombre, apellido y teléfono','error');return false;}var dv=document.getElementById('book-date').value,ti=document.getElementById('book-treatment').value,treat=treatmentsCache.find(function(t){return t.id===ti;});db.collection('bookings').where('date','==',dv).where('time','==',time).get().then(function(snap){var taken=false;snap.forEach(function(d){if(d.data().status!=='cancelled')taken=true;});if(taken){toast('Horario ocupado, elegí otro','error');loadAvailableSlots();return;}return db.collection('bookings').doc(uid()).set({clientName:nm+' '+sn,clientPhone:ph,treatmentId:ti,treatmentName:treat?treat.name:'N/A',date:dv,time:time,notes:document.getElementById('book-notes').value.trim(),status:'pending',createdAt:firebase.firestore.FieldValue.serverTimestamp()});}).then(function(r){if(r!==undefined){toast('¡Reserva creada con éxito!');document.getElementById('booking-form').reset();document.getElementById('time-slots').innerHTML='<span style="font-size:.85rem;color:var(--charcoal-light)">Seleccioná tratamiento y fecha</span>';}}).catch(function(err){toast('Error: '+err.message,'error');});return false;}
 
 // ── ADMIN ──
-function loadAdminBookings(){db.collection('bookings').orderBy('date','desc').get().then(function(snap){var tb=document.getElementById('admin-booking-list'),h='';snap.forEach(function(d){var b=d.data(),bg=b.status==='approved'?'badge-approved':b.status==='cancelled'?'badge-cancelled':'badge-pending';h+='<tr><td>'+b.userEmail+'</td><td>'+b.treatmentName+'</td><td>'+b.date+'</td><td>'+b.time+'</td><td><span class="badge '+bg+'">'+b.status+'</span></td><td class="actions">'+(b.status==='pending'?'<button class="btn btn-primary btn-sm" onclick="updateBooking(\''+d.id+'\',\'approved\')">Aprobar</button>':'')+(b.status!=='cancelled'?'<button class="btn btn-danger btn-sm" onclick="updateBooking(\''+d.id+'\',\'cancelled\')">Cancelar</button>':'')+'</td></tr>';});tb.innerHTML=h||'<tr><td colspan="6" style="text-align:center;color:var(--charcoal-light)">Sin reservas</td></tr>';}).catch(function(e){console.error('[AB]',e);});}
+function loadAdminBookings(){db.collection('bookings').orderBy('date','desc').get().then(function(snap){var tb=document.getElementById('admin-booking-list'),h='';snap.forEach(function(d){var b=d.data(),bg=b.status==='approved'?'badge-approved':b.status==='cancelled'?'badge-cancelled':'badge-pending';var clientName=b.clientName||b.userEmail||'N/A';var clientPhone=b.clientPhone||'-';h+='<tr><td>'+clientName+'</td><td>'+clientPhone+'</td><td>'+b.treatmentName+'</td><td>'+b.date+'</td><td>'+b.time+'</td><td><span class="badge '+bg+'">'+b.status+'</span></td><td class="actions">'+(b.status==='pending'?'<button class="btn btn-primary btn-sm" onclick="updateBooking(\''+d.id+'\',\'approved\')">Aprobar</button>':'')+(b.status!=='cancelled'?'<button class="btn btn-danger btn-sm" onclick="updateBooking(\''+d.id+'\',\'cancelled\')">Cancelar</button>':'')+'</td></tr>';});tb.innerHTML=h||'<tr><td colspan="7" style="text-align:center;color:var(--charcoal-light)">Sin reservas</td></tr>';}).catch(function(e){console.error('[AB]',e);});}
 function updateBooking(id,st){db.collection('bookings').doc(id).update({status:st}).then(function(){toast('Reserva '+(st==='approved'?'aprobada':'cancelada'));loadAdminBookings();}).catch(function(e){toast(e.message,'error');});}
 function loadAdminUsers(){db.collection('users').get().then(function(snap){var tb=document.getElementById('admin-user-list'),h='';snap.forEach(function(d){var u=d.data(),dt=u.createdAt?new Date(u.createdAt.seconds*1000).toLocaleDateString('es-UY'):'-';h+='<tr><td>'+u.name+'</td><td>'+u.email+'</td><td>'+dt+'</td></tr>';});tb.innerHTML=h||'<tr><td colspan="3" style="text-align:center;color:var(--charcoal-light)">Sin usuarios</td></tr>';}).catch(function(e){console.error('[AU]',e);});}
 function switchAdminTab(btn,tabId){document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.admin-section').forEach(function(s){s.classList.remove('active');});document.getElementById(tabId).classList.add('active');btn.classList.add('active');if(tabId==='at-bookings')loadAdminBookings();if(tabId==='at-users')loadAdminUsers();if(tabId==='at-schedule')loadSchedule();}
@@ -570,7 +587,7 @@ function sendContact(e){e.preventDefault();db.collection('messages').doc(uid()).
 // ── INIT ──
 function init(){
   if(!db){document.getElementById('treatments-grid').innerHTML=document.getElementById('gallery-grid').innerHTML=document.getElementById('videos-grid').innerHTML='<div class="empty-state">Error de conexión</div>';window.__hideLoader();return;}
-  Promise.all([loadTreatments().catch(function(){}),loadFlyers().catch(function(){}),loadVideos().catch(function(){}),loadSchedule().catch(function(){})]).finally(function(){window.__hideLoader();observeReveal();});
+  Promise.all([loadTreatments().catch(function(){}),loadFlyers().catch(function(){}),loadVideos().catch(function(){}),loadSchedule().catch(function(){})]).finally(function(){window.__hideLoader();observeReveal();loadBookingTreatments();});
 }
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 </script>
